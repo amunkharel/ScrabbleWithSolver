@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 //Source -- https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
-public class Dictionary {
+public class Dictionary{
     String filename;
     Trie root = new Trie();
 
@@ -35,8 +35,6 @@ public class Dictionary {
             e.printStackTrace();
         }
 
-        System.out.println(root.isValidWord("zymomters", root));
-        System.out.println(counter);
     }
 
 }
