@@ -26,11 +26,6 @@ public class ComputerPlayer {
 
     public void getValidCordinate() {
         validCordinates = board.getValidCordinates();
-        for (int i = 0; i < validCordinates.size(); i++) {
-            int x = validCordinates.get(i).getX();
-            int y = validCordinates.get(i).getY();
-            System.out.println(x + " " + y);
-        }
     }
 
     public void makeCombinationandMoves() {
@@ -113,17 +108,44 @@ public class ComputerPlayer {
                     }
                 }
                 if(word.length() <= maxLeftIndex) {
-                    
+
+                    int stoppingIndex = y - maxLeftIndex + 1;
+                    System.out.println(stoppingIndex);
+                    System.out.println(x + " " + y);
+                    //makeleftMove(word, x, y);
                 }
-                System.out.println(maxLeftIndex);
             }
         }
     }
 
-    public void makeleftMove(String word) {
-        for (int i = 0; i < validCordinates.size(); i++) {
-
+    public void makeleftMove(String word, int row, int column) {
+        int numberOfWildCard = 0;
+        String completeWord = word;
+        //int wordStartIndex = column - word.length() + 1;
+        for(int i = column + 1; i < board.getSize(); i++) {
+            if(isFree(row, i)) {
+                break;
+            }
+            else  {
+                completeWord = completeWord + boardArray[row][i];
+            }
         }
+        System.out.println(completeWord);
+
+        for(int j = 0; j < completeWord.length(); j ++) {
+            if(completeWord.charAt(j) == '*') {
+                numberOfWildCard++;
+            }
+        }
+
+        System.out.println(numberOfWildCard);
+        /*System.out.println(dictionary.isValidMove(completeWord));
+
+        if(dictionary.isValidMove(completeWord)) {
+
+        } */
+
+
     }
 
     public boolean isFree(int x, int y) {

@@ -6,8 +6,9 @@ import java.util.Scanner;
 
 //Source -- https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
 public class Dictionary{
-    String filename;
-    Trie root = new Trie();
+    private String filename;
+    private Trie root = new Trie();
+    private int size = 26;
 
     public Dictionary(String filename) {
         this.filename = filename;
@@ -42,6 +43,18 @@ public class Dictionary{
             return true;
         }
         return  false;
+    }
+
+    public boolean[] validWordsForOneWildCard(String word) {
+        boolean [] validwords  = new boolean[size];
+        validwords = root.validWordsForOneWildCard(word, root);
+        return validwords;
+    }
+
+    public boolean [][] validWordsForTwoWildCard(String word) {
+        boolean [][] validwords = new boolean[size][size];
+        validwords = root.validWordsForTwoWildCard(word, root);
+        return  validwords;
     }
 
 }

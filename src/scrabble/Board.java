@@ -110,4 +110,8 @@ public class Board {
     public char[][] getBoard() {
         return board;
     }
+
+    public int getSize() {
+        return size;
+    }
 }
