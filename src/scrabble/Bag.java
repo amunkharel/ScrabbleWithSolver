@@ -165,11 +165,6 @@ public class Bag {
             tiles[i] = new Tile('z', 10);
         }
         counter = counter + 1;
-
-        System.out.println(counter);
-        for (int j = 0; j < 100; j++) {
-            System.out.println(tiles[j].getLetter() + " " + tiles[j].getScore());
-        }
     }
 
 }

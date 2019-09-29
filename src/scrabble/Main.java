@@ -7,7 +7,19 @@ public class Main{
         //dictionary.readAndStoreDictionaryInTrie();
 
         Board board = new Board(15);
-        board.getValidCordinates();
-        board.printBoard();
+
+        Dictionary dictionary = new Dictionary("animals.txt");
+        dictionary.readAndStoreDictionaryInTrie();
+
+        Bag bag = new Bag();
+
+        ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag);
+
+        p2.getValidCordinate();
+        p2.makeIntialMoves("hello");
+
     }
+
+
+
 }

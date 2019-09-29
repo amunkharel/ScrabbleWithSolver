@@ -37,5 +37,12 @@ public class Dictionary{
 
     }
 
+    public boolean isValidMove(String word ) {
+        if(root.isValidWord(word, root)) {
+            return true;
+        }
+        return  false;
+    }
+
 }
 
