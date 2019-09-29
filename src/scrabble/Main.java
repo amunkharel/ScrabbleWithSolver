@@ -10,6 +10,6 @@ public class Main{
 
         board.printBoard();
 
-
+        Bag bag = new Bag();
     }
 }
