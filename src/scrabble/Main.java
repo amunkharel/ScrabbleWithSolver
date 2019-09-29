@@ -7,9 +7,7 @@ public class Main{
         //dictionary.readAndStoreDictionaryInTrie();
 
         Board board = new Board(15);
-
+        board.getValidCordinates();
         board.printBoard();
-
-        Bag bag = new Bag();
     }
 }

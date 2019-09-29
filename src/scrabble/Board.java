@@ -1,13 +1,19 @@
 package scrabble;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 
     private int size;
 
     private char [] [] board;
 
+    private List<Cordinate> validCordinates;
+
     public Board(int size) {
         this.size = size;
+        validCordinates = new ArrayList<Cordinate>();
         char [][] board = new char[][] {
                 {'3', '-','-', '2', '-', '-', '-', '3', '-', '-', '-', '2', '-', '-', '3'},
                 {'-', '2','-', '-', '-', '3', '-', '-', '-', '3', '-', '-', '-', '2', '-'},
@@ -44,6 +50,57 @@ public class Board {
         }
     }
 
+    public List<Cordinate> getValidCordinates() {
+        boolean cordinateAdded = false;
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
 
+                if(board[i][j] == '-' || board[i][j] == '2' || board[i][j] == '3' ||
+                        board[i][j] == '4' ) {
+                    if(!boardOutOfIndex(i, j-1)) {
+                        if(board[i][j - 1] != '-' && board[i][j - 1] != '3'
+                                && board[i][j - 1] != '2' && board[i][j - 1] != '4') {
+                            validCordinates.add(new Cordinate(i, j));
+                            cordinateAdded = true;
+                        }
+                    }
 
+                     if(!boardOutOfIndex(i, j+1) && !cordinateAdded) {
+                        if(board[i][j + 1] != '-' && board[i][j + 1] != '3'
+                                && board[i][j + 1] != '2' && board[i][j + 1] != '4') {
+                            validCordinates.add(new Cordinate(i, j));
+                            cordinateAdded = true;
+                        }
+                    }
+
+                     if(!boardOutOfIndex(i - 1, j) && !cordinateAdded) {
+                        if(board[i-1][j] != '-' && board[i-1][j] != '3'
+                                && board[i-1][j] != '2' && board[i-1][j] != '4') {
+                            validCordinates.add(new Cordinate(i , j ));
+                            cordinateAdded = true;
+                        }
+                    }
+
+                    if(!boardOutOfIndex(i +1, j) && !cordinateAdded) {
+                        if(board[i+1][j] != '-' && board[i+1][j] != '3'
+                                && board[i+1][j] != '2' && board[i+1][j] != '4') {
+                            validCordinates.add(new Cordinate(i , j ));
+                        }
+                    }
+
+                }
+                cordinateAdded = false;
+
+            }
+        }
+
+        return validCordinates;
+    }
+
+    public boolean boardOutOfIndex(int i, int j) {
+        if(i < 0 || j <0 || i >= size || j >= size){
+            return true;
+        }
+        return  false;
+    }
 }
