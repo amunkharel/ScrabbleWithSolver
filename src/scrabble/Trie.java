@@ -107,10 +107,6 @@ public class Trie {
 
                 validwords[i][j] = this.isValidWord(secondNewWord, root);
 
-                if(validwords[i][j]) {
-                    System.out.println(i + " " + j);
-                    System.out.println(secondNewWord);
-                }
             }
 
         }

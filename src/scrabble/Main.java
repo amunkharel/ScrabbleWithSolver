@@ -8,7 +8,7 @@ public class Main{
 
         Board board = new Board(15);
 
-        Dictionary dictionary = new Dictionary("animals.txt");
+        Dictionary dictionary = new Dictionary("sowpods.txt");
         dictionary.readAndStoreDictionaryInTrie();
 
         Bag bag = new Bag();
@@ -16,7 +16,7 @@ public class Main{
         ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag);
 
         p2.getValidCordinate();
-        p2.makeIntialMoves("h**");
+        p2.makeIntialMoves("h*l*");
 
     }
 
