@@ -162,19 +162,18 @@ public class ComputerPlayer {
         System.out.println(completeWord);
 
         int a = 0;
-        for(int j = 0; j < completeWord.length(); j ++) {
+        for(int j = 0; j < word.length(); j ++) {
 
-            if(completeWord.charAt(j) == '*') {
+            if(word.charAt(j) == '*') {
                 numberOfWildCard++;
                 wildcardIndex[a] = j;
                 a++;
             }
         }
 
-
         if(numberOfWildCard == 0) {
             if(dictionary.isValidMove(completeWord)) {
-                System.out.println(completeWord);
+                checkForValidInAllDirection(row, wordStartIndex, 'h', word);
             }
         }
 
@@ -187,8 +186,8 @@ public class ComputerPlayer {
                     int int_first_character = 'a' + k;
                     char character = (char) int_first_character;
 
-                    newWord = completeWord.substring(0, wildcardIndex[0]) + character
-                            + completeWord.substring(wildcardIndex[0] + 1);
+                    newWord = word.substring(0, wildcardIndex[0]) + character
+                            + word.substring(wildcardIndex[0] + 1);
 
                     System.out.println(newWord);
                     //check if new word valid in all direction
@@ -207,9 +206,9 @@ public class ComputerPlayer {
                         int int_second_character = 'a' + l;
                         char second_char = (char) int_second_character;
 
-                        newWord = completeWord.substring(0, wildcardIndex[0]) + first_char +
-                                completeWord.substring(wildcardIndex[0] + 1, wildcardIndex[1])
-                                + second_char + completeWord.substring(wildcardIndex[1] + 1);
+                        newWord = word.substring(0, wildcardIndex[0]) + first_char +
+                                word.substring(wildcardIndex[0] + 1, wildcardIndex[1])
+                                + second_char + word.substring(wildcardIndex[1] + 1);
                         System.out.println(newWord);
 
                         //check if valid in all direction
@@ -219,6 +218,109 @@ public class ComputerPlayer {
         }
 
     }
+
+    public boolean checkForValidInAllDirection(int row, int column, char direction, String word) {
+        int wordLength = word.length();
+        boolean isValidInAllDirection = true;
+        for(int i = 0; i < wordLength; i++) {
+            validMoveTopDown(word.charAt(i), row, column);
+            column++;
+        }
+        return true;
+    }
+
+    public boolean validMoveTopDown(char character, int row, int column) {
+        int startIndex = 0;
+        int stopIndex = 0;
+        String completeWord = "";
+        if(isFree(row -1 , column) && isFree(row + 1, column)) {
+            return true;
+        }
+
+        else if(isFree(row - 1, column) && !isFree(row + 1, column)) {
+            completeWord = completeWord + character;
+            for(int i = row + 1; i < board.getSize(); i++) {
+                if(isFree(i, column)){
+                    break;
+                }
+                else {
+                    completeWord = completeWord + boardArray[i][column];
+                }
+            }
+
+            if(dictionary.isValidMove(completeWord)) {
+                return true;
+            }
+            else  {
+                return false;
+            }
+        }
+
+        else if(isFree(row + 1, column) && !isFree(row -1 , column)) {
+            startIndex = row;
+            for(int i = row - 1; i >= 0; i--) {
+                if(isFree(i, column)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+            for(int i = startIndex; i < row; i++) {
+                completeWord = completeWord +boardArray[i][column];
+            }
+            completeWord = completeWord + character;
+            if(dictionary.isValidMove(completeWord)) {
+                return true;
+            }
+
+            else {
+                return false;
+            }
+        }
+
+        else if(!isFree(row + 1, column) && !isFree(row -1 , column)) {
+            startIndex = row;
+            stopIndex = row;
+            for(int i = row - 1; i >= 0; i--) {
+                if(isFree(i, column)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+
+            for(int i = row + 1; i < board.getSize(); i++) {
+                if(isFree(i, column)){
+                    break;
+                }
+                else {
+                    stopIndex ++;
+                }
+            }
+
+            for(int i = startIndex; i < row; i++) {
+                completeWord = completeWord +boardArray[i][column];
+            }
+            completeWord = completeWord + character;
+
+            for (int i = row + 1; i <= stopIndex; i++) {
+                completeWord = completeWord + boardArray[i][column];
+            }
+
+            if(dictionary.isValidMove(completeWord)) {
+                return  true;
+            }
+            else {
+                return false;
+            }
+
+        }
+
+        return false;
+    }
+
 
     public boolean isFree(int x, int y) {
         if(boardArray[x][y] == '-' || boardArray[x][y] == '1' ||
