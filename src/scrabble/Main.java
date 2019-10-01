@@ -16,9 +16,8 @@ public class Main{
         ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag);
 
         p2.getValidCordinate();
-        //p2.makeIntialMoves("hell");
+        p2.makeCombinationandMoves();
 
-        System.out.println(p2.validMoveTopDown('h', 2 , 1));
 
     }
 

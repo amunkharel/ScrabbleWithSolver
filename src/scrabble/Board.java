@@ -52,8 +52,7 @@ public class Board {
 
     public List<Cordinate> getValidCordinates() {
 
-        validCordinates.add(new Cordinate(2, 4));
-        /*
+
         boolean cordinateAdded = false;
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
@@ -95,7 +94,7 @@ public class Board {
                 cordinateAdded = false;
 
             }
-        } */
+        }
 
         return validCordinates;
     }

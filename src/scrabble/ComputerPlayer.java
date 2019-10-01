@@ -6,7 +6,7 @@ import java.util.List;
 public class ComputerPlayer {
 
     private int numberOfAlphabets;
-    private String tray = "abc";
+    private String tray = "le*mdoe";
     private Board board ;
     private char [][] boardArray;
     private Dictionary dictionary;
@@ -51,8 +51,6 @@ public class ComputerPlayer {
             makePermutation(combination, "", letterPermutations);
         }
 
-        System.out.println(letterPermutations);
-        System.out.println(letterPermutations.size());
     }
 
     public void makeCombination(char[] arr, int a, int b, List<String> letterCombinations){
@@ -81,7 +79,8 @@ public class ComputerPlayer {
 
     public void makePermutation(String str, String finalComb, List<String>letterPermuts){
         if (str.length() == 0) {
-            //System.out.println(finalComb);
+
+            makeIntialMoves(finalComb);
 
             if(!letterPermuts.contains(finalComb)) {
                 letterPermuts.add(finalComb);
@@ -101,19 +100,23 @@ public class ComputerPlayer {
         for (int i = 0; i < validCordinates.size(); i++) {
             int x = validCordinates.get(i).getX();
             int y = validCordinates.get(i).getY();
-            if(isFree(x, y - 1)) {
-                for(int j = y; j >= 0; j-- ) {
-                    if(isFree(x,j) && !leftIndexFound) {
-                        maxLeftIndex++;
+
+            if(!boardOutOfIndex(x, y-1)) {
+                if(isFree(x, y - 1)) {
+                    for(int j = y; j >= 0; j-- ) {
+                        if(isFree(x,j) && !leftIndexFound) {
+                            maxLeftIndex++;
+                        }
+                        else {
+                            leftIndexFound = true;
+                        }
                     }
-                    else {
-                        leftIndexFound = true;
+                    if(word.length() <= maxLeftIndex) {
+                        makeleftMove(word, x, y);
                     }
-                }
-                if(word.length() <= maxLeftIndex) {
-                    makeleftMove(word, x, y);
                 }
             }
+
         }
     }
 
@@ -159,8 +162,6 @@ public class ComputerPlayer {
         }
 
 
-        System.out.println(completeWord);
-
         int a = 0;
         for(int j = 0; j < word.length(); j ++) {
 
@@ -173,7 +174,7 @@ public class ComputerPlayer {
 
         if(numberOfWildCard == 0) {
             if(dictionary.isValidMove(completeWord)) {
-                checkForValidInAllDirection(row, wordStartIndex, 'h', word);
+                checkForValidInAllDirection(row, wordStartIndex, word);
             }
         }
 
@@ -189,8 +190,7 @@ public class ComputerPlayer {
                     newWord = word.substring(0, wildcardIndex[0]) + character
                             + word.substring(wildcardIndex[0] + 1);
 
-                    System.out.println(newWord);
-                    //check if new word valid in all direction
+                    checkForValidInAllDirection(row, wordStartIndex, newWord);
                 }
             }
         }
@@ -209,9 +209,8 @@ public class ComputerPlayer {
                         newWord = word.substring(0, wildcardIndex[0]) + first_char +
                                 word.substring(wildcardIndex[0] + 1, wildcardIndex[1])
                                 + second_char + word.substring(wildcardIndex[1] + 1);
-                        System.out.println(newWord);
 
-                        //check if valid in all direction
+                        checkForValidInAllDirection(row, wordStartIndex, newWord);
                     }
                 }
             }
@@ -219,25 +218,34 @@ public class ComputerPlayer {
 
     }
 
-    public boolean checkForValidInAllDirection(int row, int column, char direction, String word) {
+    public void checkForValidInAllDirection(int row, int column, String word) {
         int wordLength = word.length();
         boolean isValidInAllDirection = true;
         for(int i = 0; i < wordLength; i++) {
-            validMoveTopDown(word.charAt(i), row, column);
+            if(!validMoveTopDown(word.charAt(i), row, column)) {
+                isValidInAllDirection = false;
+                break;
+            }
             column++;
         }
-        return true;
+        if(isValidInAllDirection) {
+            //System.out.println(row + " " + column);
+            //System.out.println(word);
+        }
     }
 
     public boolean validMoveTopDown(char character, int row, int column) {
         int startIndex = 0;
         int stopIndex = 0;
         String completeWord = "";
-        if(isFree(row -1 , column) && isFree(row + 1, column)) {
+
+        if(!boardOutOfIndex(row - 1, column) && isFree(row -1 , column) &&
+                !boardOutOfIndex(row + 1, column) &&isFree(row + 1, column)) {
             return true;
         }
 
-        else if(isFree(row - 1, column) && !isFree(row + 1, column)) {
+        else if(!boardOutOfIndex(row - 1, column) && isFree(row - 1, column) &&
+                !boardOutOfIndex(row + 1, column) && !isFree(row + 1, column)) {
             completeWord = completeWord + character;
             for(int i = row + 1; i < board.getSize(); i++) {
                 if(isFree(i, column)){
@@ -256,7 +264,8 @@ public class ComputerPlayer {
             }
         }
 
-        else if(isFree(row + 1, column) && !isFree(row -1 , column)) {
+        else if(!boardOutOfIndex(row + 1, column) && isFree(row + 1, column) &&
+                !boardOutOfIndex(row -1 , column) && !isFree(row -1 , column)) {
             startIndex = row;
             for(int i = row - 1; i >= 0; i--) {
                 if(isFree(i, column)) {
@@ -279,7 +288,8 @@ public class ComputerPlayer {
             }
         }
 
-        else if(!isFree(row + 1, column) && !isFree(row -1 , column)) {
+        else if(!boardOutOfIndex(row + 1, column) && !isFree(row + 1, column) &&
+                !boardOutOfIndex(row + 1, column) && !isFree(row -1 , column)) {
             startIndex = row;
             stopIndex = row;
             for(int i = row - 1; i >= 0; i--) {

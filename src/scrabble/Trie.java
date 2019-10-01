@@ -41,7 +41,6 @@ public class Trie {
 
         for(int i = 0; i < n; i ++) {
             int index = word.charAt(i) - 'a';
-
             if(trie.child[index] == null) {
                 return false;
             }
