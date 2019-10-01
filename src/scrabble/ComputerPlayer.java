@@ -29,6 +29,10 @@ public class ComputerPlayer {
 
     public void getValidCordinate() {
         validCordinates = board.getValidCordinates();
+        /*for(int i = 0; i < validCordinates.size(); i++) {
+            System.out.println(validCordinates.get(i).getX() +
+                    " " + validCordinates.get(i).getY());
+        } */
     }
 
     public void makeCombinationandMoves() {
@@ -205,7 +209,7 @@ public class ComputerPlayer {
             for (int k = 0; k < numberOfAlphabets; k ++) {
                 if(validWordsOneWildCard[k]) {
                     String newWord = "";
-                    int int_first_character = 'a' + k;
+                    int int_first_character = 'A' + k;
                     char character = (char) int_first_character;
 
                     newWord = word.substring(0, wildcardIndex[0]) + character
@@ -222,9 +226,9 @@ public class ComputerPlayer {
                 for(int l = 0; l < numberOfAlphabets; l++) {
                     if(validWordsTwoWildCard[k][l]) {
                         String newWord = "";
-                        int int_first_character = 'a' + k;
+                        int int_first_character = 'A' + k;
                         char first_char = (char) int_first_character;
-                        int int_second_character = 'a' + l;
+                        int int_second_character = 'A' + l;
                         char second_char = (char) int_second_character;
 
                         newWord = word.substring(0, wildcardIndex[0]) + first_char +
@@ -306,7 +310,7 @@ public class ComputerPlayer {
             for (int k = 0; k < numberOfAlphabets; k ++) {
                 if(validWordsOneWildCard[k]) {
                     String newWord = "";
-                    int int_first_character = 'a' + k;
+                    int int_first_character = 'A' + k;
                     char character = (char) int_first_character;
 
                     newWord = word.substring(0, wildcardIndex[0]) + character
@@ -323,9 +327,9 @@ public class ComputerPlayer {
                 for(int l = 0; l < numberOfAlphabets; l++) {
                     if(validWordsTwoWildCard[k][l]) {
                         String newWord = "";
-                        int int_first_character = 'a' + k;
+                        int int_first_character = 'A' + k;
                         char first_char = (char) int_first_character;
-                        int int_second_character = 'a' + l;
+                        int int_second_character = 'A' + l;
                         char second_char = (char) int_second_character;
 
                         newWord = word.substring(0, wildcardIndex[0]) + first_char +
