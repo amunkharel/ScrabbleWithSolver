@@ -15,8 +15,9 @@ public class Main{
 
         ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag);
 
-        p2.getValidCordinate();
-        p2.makeCombinationandMoves();
+        //p2.makeIntialMoves("Hello");
+        p2.startAI();
+        //System.out.println(dictionary.isValidMove("leva"));
     }
 
 
