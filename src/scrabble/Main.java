@@ -17,8 +17,6 @@ public class Main{
 
         p2.getValidCordinate();
         p2.makeCombinationandMoves();
-
-
     }
 
 

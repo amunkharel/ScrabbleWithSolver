@@ -96,6 +96,7 @@ public class ComputerPlayer {
 
     public void makeIntialMoves(String word) {
         int maxLeftIndex = 0;
+        int maxRightIndex = 0;
         boolean leftIndexFound = false;
         for (int i = 0; i < validCordinates.size(); i++) {
             int x = validCordinates.get(i).getX();
@@ -117,7 +118,128 @@ public class ComputerPlayer {
                 }
             }
 
+            if(!boardOutOfIndex(x, y+1)) {
+                if(isFree(x, y + 1)) {
+                    for(int j = y; j < board.getSize(); j++ ) {
+                        if(isFree(x,j) ) {
+                            maxRightIndex++;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+
+                    if(word.length() <= maxRightIndex) {
+                        makeRightMove(word, x, y);
+                    }
+                }
+            }
+
         }
+    }
+
+    public void makeRightMove(String word, int row, int column) {
+        boolean [] validWordsOneWildCard = new boolean[numberOfAlphabets];
+        boolean [][] validWordsTwoWildCard = new boolean[numberOfAlphabets][numberOfAlphabets];
+
+        int [] wildcardIndex = new int[2];
+        int numberOfWildCard = 0;
+        String completeWord = "";
+
+        int wordStartIndex = column;
+        int newWordStartIndex = wordStartIndex;
+        int wordStopIndex = column + word.length() - 1;
+        int newWordStopIndex = wordStopIndex;
+        if(!boardOutOfIndex(row, wordStartIndex - 1) ) {
+            if(!isFree(row, wordStartIndex - 1)) {
+                for(int i = wordStartIndex - 1; i >= 0; i -- ) {
+                    if(isFree(row, i)) {
+                        break;
+                    }
+                    else{
+                        newWordStartIndex = i;
+                    }
+                }
+            }
+        }
+
+        for(int j = newWordStartIndex; j < wordStartIndex; j++) {
+            completeWord = completeWord + boardArray[row][j];
+        }
+
+        completeWord = completeWord + word;
+
+        if(!boardOutOfIndex(row, wordStopIndex + 1)) {
+            if(!isFree(row, wordStopIndex + 1)) {
+                for(int i = wordStopIndex + 1; i < board.getSize(); i++) {
+                    if(isFree(row, i)) {
+                        break;
+                    }
+                    else {
+                        completeWord = completeWord + boardArray[row][i];
+                        newWordStopIndex = i;
+                    }
+                }
+            }
+        }
+
+        int a = 0;
+        for(int j = 0; j < word.length(); j ++) {
+
+            if(word.charAt(j) == '*') {
+                numberOfWildCard++;
+                wildcardIndex[a] = j;
+                a++;
+            }
+        }
+
+        if(numberOfWildCard == 0) {
+            if(dictionary.isValidMove(completeWord)) {
+                checkForValidInAllDirection(row, wordStartIndex, word);
+            }
+        }
+
+        else if(numberOfWildCard == 1) {
+            validWordsOneWildCard = dictionary.validWordsForOneWildCard(completeWord);
+
+            for (int k = 0; k < numberOfAlphabets; k ++) {
+                if(validWordsOneWildCard[k]) {
+                    String newWord = "";
+                    int int_first_character = 'a' + k;
+                    char character = (char) int_first_character;
+
+                    newWord = word.substring(0, wildcardIndex[0]) + character
+                            + word.substring(wildcardIndex[0] + 1);
+
+                    checkForValidInAllDirection(row, wordStartIndex, newWord);
+                }
+            }
+        }
+
+        else if(numberOfWildCard == 2) {
+            validWordsTwoWildCard = dictionary.validWordsForTwoWildCard(completeWord);
+            for(int k = 0; k < numberOfAlphabets; k++) {
+                for(int l = 0; l < numberOfAlphabets; l++) {
+                    if(validWordsTwoWildCard[k][l]) {
+                        String newWord = "";
+                        int int_first_character = 'a' + k;
+                        char first_char = (char) int_first_character;
+                        int int_second_character = 'a' + l;
+                        char second_char = (char) int_second_character;
+
+                        newWord = word.substring(0, wildcardIndex[0]) + first_char +
+                                word.substring(wildcardIndex[0] + 1, wildcardIndex[1])
+                                + second_char + word.substring(wildcardIndex[1] + 1);
+
+                        checkForValidInAllDirection(row, wordStartIndex, newWord);
+                    }
+                }
+            }
+        }
+
+
+
+
     }
 
     public void makeleftMove(String word, int row, int column) {
@@ -220,17 +342,18 @@ public class ComputerPlayer {
 
     public void checkForValidInAllDirection(int row, int column, String word) {
         int wordLength = word.length();
+        int col = column;
         boolean isValidInAllDirection = true;
         for(int i = 0; i < wordLength; i++) {
-            if(!validMoveTopDown(word.charAt(i), row, column)) {
+            if(!validMoveTopDown(word.charAt(i), row, col)) {
                 isValidInAllDirection = false;
                 break;
             }
-            column++;
+            col++;
         }
         if(isValidInAllDirection) {
-            //System.out.println(row + " " + column);
-            //System.out.println(word);
+            System.out.println(row + " " + column);
+            System.out.println(word);
         }
     }
 
@@ -341,7 +464,7 @@ public class ComputerPlayer {
     }
 
     public boolean boardOutOfIndex(int i, int j) {
-        if(i < 0 || j <0 || i >= board.getSize() || j >= board.getSize()){
+        if(i < 0 || j <0 || i > board.getSize() - 1 || j > board.getSize() - 1){
             return true;
         }
         return  false;

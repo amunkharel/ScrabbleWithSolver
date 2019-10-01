@@ -51,8 +51,6 @@ public class Board {
     }
 
     public List<Cordinate> getValidCordinates() {
-
-
         boolean cordinateAdded = false;
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
@@ -100,7 +98,7 @@ public class Board {
     }
 
     public boolean boardOutOfIndex(int i, int j) {
-        if(i < 0 || j <0 || i >= size || j >= size){
+        if(i < 0 || j <0 || i > size - 1 || j > size - 1){
             return true;
         }
         return  false;
