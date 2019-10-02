@@ -15,6 +15,7 @@ public class Board {
         this.size = size;
         validCordinates = new ArrayList<Cordinate>();
         char [][] board = new char[][] {
+                //0    1   2    3    4    5    6    7   8    9     10  11   12    13   14
                 {'3', '-','-', '2', '-', '-', '-', '3', '-', '-', '-', '2', '-', '-', '3'},
                 {'-', '-','-', '-', '-', '3', '-', '-', '-', '3', '-', '-', '-', '2', '-'},
                 {'-', '-','2', '-', '-', '-', '2', '-', '2', '-', '-', '-', '2', '-', '-'},
@@ -51,8 +52,6 @@ public class Board {
     }
 
     public List<Cordinate> getValidCordinates() {
-
-        //validCordinates.add( new Cordinate(2, 5));
 
 
         boolean cordinateAdded = false;

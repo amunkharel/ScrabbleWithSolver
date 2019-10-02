@@ -17,7 +17,7 @@ public class Main{
 
         //p2.makeIntialMoves("Hello");
         p2.startAI();
-        //System.out.println(dictionary.isValidMove("leva"));
+        //System.out.println(dictionary.isValidMove("mi"));
     }
 
 
