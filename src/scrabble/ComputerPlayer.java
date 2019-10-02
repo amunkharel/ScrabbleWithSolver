@@ -143,7 +143,7 @@ public class ComputerPlayer {
                     }
                     if(word.length() <= maxRightIndex) {
                         maxRightIndex = 0;
-                        //makeRightMove(word, x, y);
+                        makeRightMove(word, x, y);
                     }
                 }
             }
@@ -161,7 +161,7 @@ public class ComputerPlayer {
 
                     if(word.length() <= maxTopIndex ) {
                         maxTopIndex  = 0;
-                        //makeTopMove(word, x, y);
+                        makeTopMove(word, x, y);
                     }
                 }
             }
@@ -875,7 +875,8 @@ public class ComputerPlayer {
 
     public boolean isFree(int x, int y) {
         if(boardArray[x][y] == '-' || boardArray[x][y] == '1' ||
-                boardArray[x][y] == '2' || boardArray[x][y] == '3' || boardArray[x][y] == '4' ) {
+                boardArray[x][y] == '2' || boardArray[x][y] == '3' || boardArray[x][y] == '4' ||
+        boardArray[x][y] == '@' || boardArray[x][y] == '!' || boardArray[x][y] == '$') {
             return true;
         }
         return  false;

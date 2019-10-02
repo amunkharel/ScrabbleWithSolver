@@ -3,8 +3,6 @@ package scrabble;
 public class Main{
 
     public static void main(String[] args) {
-        //Dictionary dictionary = new Dictionary("animals.txt");
-        //dictionary.readAndStoreDictionaryInTrie();
 
         Board board = new Board(15);
 
@@ -15,9 +13,9 @@ public class Main{
 
         ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag);
 
-        //p2.makeIntialMoves("Hello");
         p2.startAI();
-        //System.out.println(dictionary.isValidMove("mi"));
+
+        //board.printBoard();
     }
 
 }
