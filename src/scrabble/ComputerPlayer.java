@@ -13,8 +13,9 @@ public class ComputerPlayer {
     private Bag bag;
     private List<Cordinate> validCordinates;
     private List<String> letterPermutations = new ArrayList<>();
+    private Score score;
 
-    public ComputerPlayer(Board board, Dictionary dictionary, Bag bag) {
+    public ComputerPlayer(Board board, Dictionary dictionary, Bag bag, Score score) {
 
         validCordinates  = new ArrayList<Cordinate>();
         this.board = board;
@@ -23,6 +24,7 @@ public class ComputerPlayer {
         this.bag = bag;
         this.numberOfAlphabets = 26;
         validCordinates = board.getValidCordinates();
+        this.score = score;
     }
 
     public void setTray(String tray) {
@@ -160,7 +162,7 @@ public class ComputerPlayer {
 
                     if(word.length() <= maxTopIndex ) {
                         maxTopIndex  = 0;
-                        makeTopMove(word, x, y);
+                        //makeTopMove(word, x, y);
                     }
                 }
             }
@@ -177,7 +179,7 @@ public class ComputerPlayer {
                     }
                     if(word.length() <= maxBottomIndex) {
                         maxBottomIndex = 0;
-                        makeBottomMove(word, x, y);
+                        //makeBottomMove(word, x, y);
                     }
                 }
             }
@@ -611,6 +613,7 @@ public class ComputerPlayer {
         if(isValidInAllDirection) {
             System.out.println("");
             System.out.println(row + " " + column + " Vertical");
+            score.getScore(row, column, 'c', 'v', word );
             System.out.println(word);
         }
     }
@@ -751,6 +754,7 @@ public class ComputerPlayer {
         if(isValidInAllDirection) {
             System.out.println("");
             System.out.println(row + " " + column + " Horizontal");
+            score.getScore(row, column, 'c', 'h', word );
             System.out.println(word);
         }
     }

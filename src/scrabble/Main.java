@@ -9,13 +9,19 @@ public class Main{
         Dictionary dictionary = new Dictionary("sowpods.txt");
         dictionary.readAndStoreDictionaryInTrie();
 
+
         Bag bag = new Bag();
+        Score score = new Score(bag, board);
 
-        ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag);
+        ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag, score);
 
-        //p2.startAI();
+        p2.startAI();
 
-
+        System.out.println(score.getCompBestCurrentWord());
+        System.out.println(score.getCompBestMoveDirection());
+        System.out.println(score.getComputerBestMoveRow());
+        System.out.println(score.getComputerBestMoveColumn());
+        System.out.println(score.getCompCurrentBestScore());
         //board.printBoard();
     }
 
