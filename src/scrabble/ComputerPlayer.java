@@ -31,7 +31,6 @@ public class ComputerPlayer {
 
 
     public void startAI() {
-
         makeCombinations();
         for (int i = 0; i < letterPermutations.size(); i++) {
             makeIntialMoves(letterPermutations.get(i));

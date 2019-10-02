@@ -13,7 +13,8 @@ public class Main{
 
         ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag);
 
-        p2.startAI();
+        //p2.startAI();
+
 
         //board.printBoard();
     }
