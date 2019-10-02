@@ -143,7 +143,7 @@ public class ComputerPlayer {
                     }
                     if(word.length() <= maxRightIndex) {
                         maxRightIndex = 0;
-                        makeRightMove(word, x, y);
+                        //makeRightMove(word, x, y);
                     }
                 }
             }
@@ -161,7 +161,7 @@ public class ComputerPlayer {
 
                     if(word.length() <= maxTopIndex ) {
                         maxTopIndex  = 0;
-                        makeTopMove(word, x, y);
+                        //makeTopMove(word, x, y);
                     }
                 }
             }
@@ -609,11 +609,11 @@ public class ComputerPlayer {
         }
 
 
-        /*if(isValidInAllDirection) {
+        if(isValidInAllDirection) {
             System.out.println("");
             System.out.println(row + " " + column + " Vertical");
             System.out.println(word);
-        } */
+        }
     }
 
     public boolean validMoveLeftRight(char character, int row, int column) {
@@ -621,14 +621,35 @@ public class ComputerPlayer {
         int stopIndex = 0;
         String completeWord = "";
 
-        if(!boardOutOfIndex(row, column - 1) && isFree(row , column - 1) &&
-                !boardOutOfIndex(row, column + 1) &&isFree(row, column + 1)) {
+        boolean noLeftMove = false;
+        boolean noRightMove = false;
+
+        if(boardOutOfIndex(row, column - 1)) {
+            noLeftMove = true;
+        }
+
+        else {
+            if(isFree(row, column  - 1)) {
+                noLeftMove = true;
+            }
+        }
+
+        if(boardOutOfIndex(row, column + 1)) {
+            noRightMove = true;
+        }
+
+        else {
+            if(isFree(row, column + 1)) {
+                noRightMove = true;
+            }
+        }
+
+        if(noLeftMove && noRightMove) {
             return true;
         }
 
 
-        else if(!boardOutOfIndex(row, column + 1) && isFree(row, column + 1) &&
-                !boardOutOfIndex(row, column - 1) && !isFree(row , column - 1)) {
+        else if(!noLeftMove && noRightMove) {
 
             startIndex = column;
             for(int i = column - 1; i >=0; i--) {
@@ -650,8 +671,7 @@ public class ComputerPlayer {
             }
         }
 
-        else if(!boardOutOfIndex(row, column + 1) && !isFree(row, column + 1) &&
-                !boardOutOfIndex(row, column - 1) && isFree(row , column - 1)) {
+        else if(noLeftMove && !noRightMove) {
             completeWord = completeWord + character;
             for(int i = column + 1; i < board.getSize(); i++) {
                 if(isFree(row, i)){
@@ -672,8 +692,7 @@ public class ComputerPlayer {
 
         }
 
-        else if(!boardOutOfIndex(row, column + 1) && !isFree(row, column + 1) &&
-                !boardOutOfIndex(row, column - 1) && !isFree(row , column - 1)) {
+        else if(!noLeftMove && !noRightMove) {
             startIndex = column;
             stopIndex = column;
 
@@ -730,11 +749,11 @@ public class ComputerPlayer {
             }
             col++;
         }
-        /*if(isValidInAllDirection) {
+        if(isValidInAllDirection) {
             System.out.println("");
             System.out.println(row + " " + column + " Horizontal");
             System.out.println(word);
-        } */
+        }
     }
 
     public boolean validMoveTopDown(char character, int row, int column) {
@@ -742,15 +761,35 @@ public class ComputerPlayer {
         int startIndex = 0;
         int stopIndex = 0;
         String completeWord = "";
+        boolean noTopMove = false;
+        boolean noBottomMove = false;
+
+        if(boardOutOfIndex(row - 1, column)) {
+            noTopMove = true;
+        }
+
+        else {
+            if(isFree(row - 1, column)) {
+                noTopMove = true;
+            }
+        }
+
+        if(boardOutOfIndex(row + 1, column)) {
+            noBottomMove = true;
+        }
+
+        else {
+            if(isFree(row + 1, column)) {
+                noBottomMove = true;
+            }
+        }
 
 
-        if(!boardOutOfIndex(row - 1, column) && isFree(row -1 , column) &&
-                !boardOutOfIndex(row + 1, column) &&isFree(row + 1, column)) {
+        if(noTopMove && noBottomMove) {
             return true;
         }
 
-        else if(!boardOutOfIndex(row - 1, column) && isFree(row - 1, column) &&
-                !boardOutOfIndex(row + 1, column) && !isFree(row + 1, column)) {
+        else if(noTopMove && !noBottomMove) {
             completeWord = completeWord + character;
             for(int i = row + 1; i < board.getSize(); i++) {
                 if(isFree(i, column)){
@@ -760,7 +799,6 @@ public class ComputerPlayer {
                     completeWord = completeWord + boardArray[i][column];
                 }
             }
-
             if(dictionary.isValidMove(completeWord)) {
                 return true;
             }
@@ -769,8 +807,7 @@ public class ComputerPlayer {
             }
         }
 
-        else if(!boardOutOfIndex(row + 1, column) && isFree(row + 1, column) &&
-                !boardOutOfIndex(row -1 , column) && !isFree(row -1 , column)) {
+        else if(noBottomMove && !noTopMove) {
             startIndex = row;
             for(int i = row - 1; i >= 0; i--) {
                 if(isFree(i, column)) {
@@ -793,8 +830,7 @@ public class ComputerPlayer {
             }
         }
 
-        else if(!boardOutOfIndex(row + 1, column) && !isFree(row + 1, column) &&
-                !boardOutOfIndex(row - 1, column) && !isFree(row - 1 , column)) {
+        else if(!noBottomMove && !noTopMove) {
             startIndex = row;
             stopIndex = row;
             for(int i = row - 1; i >= 0; i--) {

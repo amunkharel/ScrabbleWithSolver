@@ -20,6 +20,4 @@ public class Main{
         //System.out.println(dictionary.isValidMove("mi"));
     }
 
-
-
 }
