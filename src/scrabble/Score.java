@@ -44,7 +44,6 @@ public class Score {
                 calculateScoreInTopBottom(row, column + i, word.charAt(i));
             }
 
-            System.out.println(currentScore);
             recordBestMove(row, column, player, direction, word);
         }
 
@@ -55,7 +54,6 @@ public class Score {
                 calculateScoreInLeftRight(row + i, column, word.charAt(i));
             }
 
-            System.out.println(currentScore);
             recordBestMove(row, column, player, direction, word);
         }
 

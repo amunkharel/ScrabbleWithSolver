@@ -611,10 +611,7 @@ public class ComputerPlayer {
 
 
         if(isValidInAllDirection) {
-            System.out.println("");
-            System.out.println(row + " " + column + " Vertical");
             score.getScore(row, column, 'c', 'v',word);
-            System.out.println(word);
         }
     }
 
@@ -752,10 +749,7 @@ public class ComputerPlayer {
             col++;
         }
         if(isValidInAllDirection) {
-            System.out.println("");
-            System.out.println(row + " " + column + " Horizontal");
             score.getScore(row, column, 'c', 'h', word );
-            System.out.println(word);
         }
     }
 
