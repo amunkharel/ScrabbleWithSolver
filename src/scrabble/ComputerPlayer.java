@@ -6,7 +6,7 @@ import java.util.List;
 public class ComputerPlayer {
 
     private int numberOfAlphabets;
-    private String tray = "le*mdoe";
+    private String tray;
     private Board board ;
     private char [][] boardArray;
     private Dictionary dictionary;
