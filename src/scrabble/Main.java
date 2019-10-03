@@ -15,13 +15,11 @@ public class Main{
 
         ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag, score);
 
+        //score.getScore(4, 10, 'c', 'v', "modeleD");
         p2.startAI();
 
-        System.out.println(score.getCompBestCurrentWord());
-        System.out.println(score.getCompBestMoveDirection());
-        System.out.println(score.getComputerBestMoveRow());
-        System.out.println(score.getComputerBestMoveColumn());
-        System.out.println(score.getCompCurrentBestScore());
+        p2.placeBestMove();
+        board.printBoard();
         //board.printBoard();
     }
 

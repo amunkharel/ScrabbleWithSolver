@@ -123,4 +123,18 @@ public class Board {
     public int getSize() {
         return size;
     }
+
+    public void placeMove(int row, int column, char direction, String word) {
+        if(direction == 'h') {
+            for (int i = 0; i < word.length(); i++) {
+                board[row][column + i] = word.charAt(i);
+            }
+        }
+
+        if(direction == 'v') {
+            for (int i = 0; i < word.length(); i++) {
+                board[row + i][column] = word.charAt(i);
+            }
+        }
+    }
 }

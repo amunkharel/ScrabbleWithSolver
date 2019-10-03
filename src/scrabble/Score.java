@@ -48,6 +48,214 @@ public class Score {
             recordBestMove(row, column, player, direction, word);
         }
 
+        if(direction == 'v') {
+            calculateScoreForTopBottom(row, column, player, word);
+
+            for(int i = 0; i < word.length(); i++) {
+                calculateScoreInLeftRight(row + i, column, word.charAt(i));
+            }
+
+            System.out.println(currentScore);
+            recordBestMove(row, column, player, direction, word);
+        }
+
+
+    }
+
+    public void calculateScoreInLeftRight
+            (int row, int column, char character) {
+        int score = 0;
+        int multiplier = 1;
+        int startIndex = 0;
+        int stopIndex = 0;
+        boolean noLeftMove = false;
+        boolean noRightMove = false;
+
+        if(boardOutOfIndex(row, column - 1)) {
+            noLeftMove = true;
+        }
+
+        else {
+            if(isFree(row, column - 1)) {
+                noLeftMove = true;
+            }
+        }
+
+        if(boardOutOfIndex(row, column + 1)) {
+            noRightMove = true;
+        }
+
+        else {
+            if(isFree(row, column + 1)) {
+                noRightMove = true;
+            }
+        }
+
+
+        if(noLeftMove && !noRightMove) {
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            for(int i = column + 1; i < board.getSize(); i++) {
+                if(isFree(row, i)){
+                    break;
+                }
+                else {
+                    score = score + bag.getScore(boardArray[row][i]);
+                }
+            }
+        }
+
+        else if(noRightMove && !noLeftMove) {
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            startIndex = column;
+            for(int i = column - 1; i >= 0; i--) {
+                if(isFree(row, i)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+            for(int i = startIndex; i < column; i++) {
+                score = score + bag.getScore(boardArray[row][i]);
+            }
+
+        }
+
+
+        else if(!noLeftMove && !noRightMove) {
+
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            startIndex = column;
+            stopIndex = column;
+            for(int i = column - 1; i >= 0; i--) {
+                if(isFree(row, i)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+
+            for(int i = column + 1; i < board.getSize(); i++) {
+                if(isFree(row, i)){
+                    break;
+                }
+                else {
+                    stopIndex ++;
+                }
+            }
+
+            for(int i = startIndex; i < column; i++) {
+                score = score + bag.getScore(boardArray[row][i]);
+            }
+
+            for (int i = column + 1; i <= stopIndex; i++) {
+                score = score + bag.getScore(boardArray[row][i]);
+            }
+
+        }
+
+        score = score*multiplier;
+
+        currentScore = currentScore + score;
+
+
+    }
+    public void calculateScoreForTopBottom(int row, int column, char player, String word) {
+        int wordScore = 0;
+        int multiplier = 1;
+        int maxTopIndex = row;
+        int maxBottomIndex = row + word.length() - 1;
+
+        if(!boardOutOfIndex(row - 1, column)) {
+            if(!isFree(row - 1, column)) {
+                for(int j = row - 1; j>= 0; j-- ) {
+                    if(!isFree(j, column)) {
+                        maxTopIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(!boardOutOfIndex(maxBottomIndex + 1,  column)) {
+            if(!isFree(maxBottomIndex + 1,  column)) {
+                for(int j = maxBottomIndex + 1; j < board.getSize(); j++) {
+                    if(!isFree(j, column)) {
+                        maxBottomIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        for(int i = row; i <= row + word.length() - 1; i++) {
+            if(containsWordsMultiplier(i, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[i][column]);
+            }
+        }
+
+        for(int i = maxTopIndex; i < row; i++ ) {
+            wordScore = wordScore + bag.getScore(boardArray[i][column]);
+        }
+
+
+        int counter = 0;
+        for(int i = row; i <= row + word.length() - 1; i ++) {
+            if(containsLetterMultiplier(i, column)) {
+                wordScore = wordScore + bag.getScore(word.charAt(counter))
+                        * letterMultiplierScore(boardArray[i][column]);
+            }
+            else {
+                wordScore = wordScore + bag.getScore(word.charAt(counter));
+            }
+            counter++;
+        }
+
+
+        for(int i = row + word.length(); i <= maxBottomIndex; i++) {
+            wordScore = wordScore + bag.getScore(boardArray[i][column]);
+        }
+
+        wordScore = wordScore * multiplier;
+        currentScore = currentScore + wordScore;
 
     }
 
@@ -114,6 +322,7 @@ public class Score {
 
         wordScore = wordScore * multiplier;
 
+
         currentScore = currentScore + wordScore;
     }
 
@@ -123,7 +332,6 @@ public class Score {
         int multiplier = 1;
         int startIndex = 0;
         int stopIndex = 0;
-        String completeWord = "";
         boolean noTopMove = false;
         boolean noBottomMove = false;
 
@@ -148,10 +356,11 @@ public class Score {
         }
 
 
-        if(noTopMove && !noBottomMove) {
 
+         if(noTopMove && !noBottomMove) {
             if(containsWordsMultiplier(row, column)) {
                 multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
             }
             else if(containsLetterMultiplier(row,column)) {
                 score = score + letterMultiplierScore(boardArray[row][column])
@@ -172,9 +381,9 @@ public class Score {
         }
 
         else if(noBottomMove && !noTopMove) {
-
             if(containsWordsMultiplier(row, column)) {
                 multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
             }
             else if(containsLetterMultiplier(row,column)) {
                 score = score + letterMultiplierScore(boardArray[row][column])
@@ -203,6 +412,7 @@ public class Score {
 
             if(containsWordsMultiplier(row, column)) {
                 multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
             }
             else if(containsLetterMultiplier(row,column)) {
                 score = score + letterMultiplierScore(boardArray[row][column])
@@ -243,6 +453,7 @@ public class Score {
         }
 
         score = score*multiplier;
+
 
         currentScore = currentScore + score;
 
@@ -351,4 +562,7 @@ public class Score {
         return compCurrentBestScore;
     }
 
+    public void setCompTotalScore(int score) {
+        this.compTotalScore = compTotalScore + score;
+    }
 }

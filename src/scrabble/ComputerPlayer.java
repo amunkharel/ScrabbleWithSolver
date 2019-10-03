@@ -162,7 +162,7 @@ public class ComputerPlayer {
 
                     if(word.length() <= maxTopIndex ) {
                         maxTopIndex  = 0;
-                        //makeTopMove(word, x, y);
+                        makeTopMove(word, x, y);
                     }
                 }
             }
@@ -179,7 +179,7 @@ public class ComputerPlayer {
                     }
                     if(word.length() <= maxBottomIndex) {
                         maxBottomIndex = 0;
-                        //makeBottomMove(word, x, y);
+                        makeBottomMove(word, x, y);
                     }
                 }
             }
@@ -613,7 +613,7 @@ public class ComputerPlayer {
         if(isValidInAllDirection) {
             System.out.println("");
             System.out.println(row + " " + column + " Vertical");
-            score.getScore(row, column, 'c', 'v', word );
+            score.getScore(row, column, 'c', 'v',word);
             System.out.println(word);
         }
     }
@@ -875,6 +875,18 @@ public class ComputerPlayer {
         return false;
     }
 
+    public void placeBestMove() {
+        char direction = score.getCompBestMoveDirection();
+        int row = score.getComputerBestMoveRow();
+        int column = score.getComputerBestMoveColumn();
+        String word = score.getCompBestCurrentWord();
+
+        int currentBestScore = score.getCompCurrentBestScore();
+        board.placeMove(row, column, direction, word);
+        score.setCompTotalScore(currentBestScore);
+        score.resetCurrentCompScore();
+
+    }
 
     public boolean isFree(int x, int y) {
         if(boardArray[x][y] == '-' || boardArray[x][y] == '1' ||
