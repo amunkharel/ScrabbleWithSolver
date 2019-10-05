@@ -7,6 +7,7 @@ public class ComputerPlayer {
 
     private int numberOfAlphabets;
     private String tray;
+    private String duplicateTray;
     private Board board ;
     private char [][] boardArray;
     private Dictionary dictionary;
@@ -23,7 +24,6 @@ public class ComputerPlayer {
         this.dictionary = dictionary;
         this.bag = bag;
         this.numberOfAlphabets = 26;
-        validCordinates = board.getValidCordinates();
         this.score = score;
     }
 
@@ -31,8 +31,22 @@ public class ComputerPlayer {
         this.tray = tray;
     }
 
+    public void setTrayFromBag() {
+        tray = "";
+        duplicateTray = "";
+        List<Tile> tiles = new ArrayList<Tile>();
+        tiles = bag.giveTilesToTray(7);
+        for (int i = 0; i < tiles.size(); i++ ) {
+            tray =  tray + tiles.get(i).getLetter();
+            duplicateTray = duplicateTray + tiles.get(i).getLetter();
+        }
+        System.out.println(tray);
+        System.out.println(duplicateTray);
+    }
+
 
     public void startAI() {
+        validCordinates = board.getValidCordinates();
         makeCombinations();
         for (int i = 0; i < letterPermutations.size(); i++) {
             makeIntialMoves(letterPermutations.get(i));

@@ -1,7 +1,10 @@
 package scrabble;
 
+import javafx.scene.Scene;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Bag {
     private List<Tile> tiles;
@@ -186,4 +189,27 @@ public class Bag {
         return 0;
     }
 
+    public void printBag() {
+        for(int i = 0; i < tiles.size(); i++) {
+            System.out.println(tiles.get(i).getLetter() + " " + tiles.get(i).getScore());
+        }
+
+        System.out.println(tiles.size());
+    }
+
+    public List<Tile> giveTilesToTray(int number) {
+        List<Tile> tiles = new ArrayList<Tile>();
+
+        Random rand = new Random();
+
+        int randomNumber = 0;
+
+        for(int i = 0; i < number; i++) {
+            randomNumber = rand.nextInt(this.tiles.size() - 1);
+            tiles.add(this.tiles.get(randomNumber));
+            this.tiles.remove(randomNumber);
+        }
+
+        return tiles;
+    }
 }

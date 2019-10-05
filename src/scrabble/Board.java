@@ -9,17 +9,20 @@ public class Board {
 
     private char [] [] board;
 
+    private char [][] duplicateboard;
+
     private List<Cordinate> validCordinates;
 
     public Board(int size) {
         this.size = size;
         validCordinates = new ArrayList<Cordinate>();
         this.board = new char[size][size];
-        this.board = board;
+        duplicateboard = new char[size][size];
     }
 
     public void insertScoreAndIntialLetters(int row, int column, char character) {
         this.board[row][column] = character;
+        this.duplicateboard[row][column] = character;
     }
 
 
@@ -28,6 +31,15 @@ public class Board {
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 System.out.print(board[i][j] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public void printDuplicateBoard() {
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                System.out.print(duplicateboard[i][j] + " ");
             }
             System.out.println("");
         }
@@ -118,5 +130,13 @@ public class Board {
                 board[row + i][column] = word.charAt(i);
             }
         }
+    }
+
+    public void placeLetterDuplicateBoard(int row, int column, char letter) {
+        duplicateboard[row][column] = letter;
+    }
+
+    public char [][] getDuplicateboard () {
+        return  duplicateboard;
     }
 }
