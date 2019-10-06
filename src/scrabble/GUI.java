@@ -136,7 +136,7 @@ public class GUI {
         }
     }
 
-    public void drawTileInBoard(int row, int column, char value) {
+    public void drawTileInBoard(int column, int row, char value) {
         if(value == '2') {
             gc.setFill(Color.LIGHTBLUE);
             gc.fillRect(40*row, 40*column, 40, 40);

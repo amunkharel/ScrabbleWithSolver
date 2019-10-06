@@ -1,9 +1,11 @@
 package scrabble;
 
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -28,6 +30,8 @@ public class Main extends Application {
     private Scene scene = new Scene(bp, 800, 800);
 
     private GUI gui = new GUI(p1, canvas, board, bag, score);
+    private EventHandler e;
+
 
 
 
@@ -115,7 +119,24 @@ public class Main extends Application {
         p2.setTrayFromBag();
         p1.setTrayFromBag();
         gui = new GUI(p1, canvas, board, bag, score);
-        gui.updateCanvas();
+
+        canvas.setOnMousePressed(new javafx.event.EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                e = new EventHandler(bag, dictionary, board, score, p1, p2, event.getX(), event.getY());
+                e.handleEvent();
+            }
+        });
+
+        AnimationTimer animator = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                gui.updateCanvas();
+            }
+        };
+
+        animator.start();
 
         bp.setCenter(canvas);
         stage.setScene(scene);

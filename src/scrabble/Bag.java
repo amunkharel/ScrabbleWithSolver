@@ -174,17 +174,28 @@ public class Bag {
         }
     }
 
-    public int getScore(char character) {
-        int charac = character - 'a';
-
-        if(charac > 25) {
-            return  0;
+    public int getScore(char letter) {
+        if(letter == 'a' || letter == 'e' || letter == 'i' || letter == 'l' || letter == 'n' || letter == 'o' ||
+                letter == 'r' || letter == 's' || letter == 't' || letter == 'u'){
+            return 1;
         }
-
-        for(int i = 0; i < tiles.size(); i++) {
-            if(tiles.get(i).getLetter() == character) {
-               return tiles.get(i).getScore();
-            }
+        if(letter == 'd' || letter == 'g'){
+            return 2;
+        }
+        if(letter == 'b' || letter == 'c' || letter == 'm' || letter == 'p'){
+            return 3;
+        }
+        if(letter == 'f' || letter == 'h' || letter == 'v' || letter == 'w' || letter == 'y'){
+            return 4;
+        }
+        if(letter == 'k'){
+            return 5;
+        }
+        if(letter == 'j' || letter == 'x'){
+            return 8;
+        }
+        if(letter == 'q' || letter == 'z'){
+            return 10;
         }
         return 0;
     }

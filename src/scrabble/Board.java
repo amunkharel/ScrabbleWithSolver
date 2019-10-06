@@ -13,11 +13,14 @@ public class Board {
 
     private List<Cordinate> validCordinates;
 
+    private boolean swapInitialize;
+
     public Board(int size) {
         this.size = size;
         validCordinates = new ArrayList<Cordinate>();
         this.board = new char[size][size];
         duplicateboard = new char[size][size];
+        swapInitialize = false;
     }
 
     public void insertScoreAndIntialLetters(int row, int column, char character) {
@@ -25,7 +28,13 @@ public class Board {
         this.duplicateboard[row][column] = character;
     }
 
+    public boolean isSwapInitialize() {
+        return swapInitialize;
+    }
 
+    public void setSwapInitialize(boolean swapInitialize) {
+        this.swapInitialize = swapInitialize;
+    }
 
     public void printBoard() {
         for(int i = 0; i < size; i++) {

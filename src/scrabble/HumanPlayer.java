@@ -15,6 +15,8 @@ public class HumanPlayer {
     private List<Cordinate> validCordinates;
     private List<String> letterPermutations = new ArrayList<>();
     private Score score;
+    private boolean traySelected;
+    private int selectedTray;
 
     public HumanPlayer(Board board, Dictionary dictionary, Bag bag, Score score) {
         validCordinates = new ArrayList<Cordinate>();
@@ -24,6 +26,23 @@ public class HumanPlayer {
         this.bag = bag;
         this.numberOfAlphabets = 26;
         this.score = score;
+        traySelected = false;
+    }
+
+    public void setTraySelected(boolean traySelected) {
+        this.traySelected = traySelected;
+    }
+
+    public boolean isTraySelected() {
+        return traySelected;
+    }
+
+    public void setSelectedTray(int selectedTray) {
+        this.selectedTray = selectedTray;
+    }
+
+    public int getSelectedTray() {
+        return selectedTray;
     }
 
     public void setTrayFromBag() {
