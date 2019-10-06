@@ -223,4 +223,8 @@ public class Bag {
 
         return tiles;
     }
+
+    public void putBackInBag(char letter) {
+        tiles.add(new Tile(letter, this.getScore(letter)));
+    }
 }

@@ -59,6 +59,12 @@ public class GUI {
         gc.setLineWidth(2);
         gc.strokeRect(200, 630, 100, 50);
 
+        if(board.isSwapInitialize()) {
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(2);
+            gc.strokeRect(200, 630, 100, 50);
+        }
+
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(30));
         gc.fillText("Swap", 220 , 660 );
@@ -109,15 +115,34 @@ public class GUI {
 
     public void drawLetters(char value, int column) {
         if(value == '*') {
+
+
             gc.setFill(Color.CHOCOLATE);
             gc.fillRect(40 + 40*column, 700, 40, 40);
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(2);
             gc.strokeRect(40 + 40*column, 700, 40, 40);
 
+
             gc.setFill(Color.BLACK);
             gc.setFont(new Font(15));
             gc.fillText(String.valueOf(bag.getScore(value)), 40 + 40*column + 20, 700 +5 + 22 + 10);
+
+            if(p1.isTraySelected()) {
+                if(p1.getSelectedTray() == column) {
+                    gc.setStroke(Color.RED);
+                    gc.setLineWidth(2);
+                    gc.strokeRect(40 + 40*column, 700, 40, 40);
+                }
+            }
+
+            for(int i = 0; i < p1.getSwapSelectedTrayIndex().size(); i++) {
+                if(column == p1.getSwapSelectedTrayIndex().get(i)) {
+                    gc.setStroke(Color.RED);
+                    gc.setLineWidth(2);
+                    gc.strokeRect(40 + 40*column, 700, 40, 40);
+                }
+            }
         }
 
         else {
@@ -133,6 +158,23 @@ public class GUI {
             gc.setFill(Color.BLACK);
             gc.setFont(new Font(15));
             gc.fillText(String.valueOf(bag.getScore(value)), 40 + 40*column + 20, 700 +5 + 22 + 10);
+
+            if(p1.isTraySelected()) {
+                if(p1.getSelectedTray() == column) {
+                    gc.setStroke(Color.RED);
+                    gc.setLineWidth(2);
+                    gc.strokeRect(40 + 40*column, 700, 40, 40);
+                }
+            }
+
+
+            for(int i = 0; i < p1.getSwapSelectedTrayIndex().size(); i++) {
+                if(column == p1.getSwapSelectedTrayIndex().get(i)) {
+                    gc.setStroke(Color.RED);
+                    gc.setLineWidth(2);
+                    gc.strokeRect(40 + 40*column, 700, 40, 40);
+                }
+            }
         }
     }
 

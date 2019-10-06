@@ -38,10 +38,12 @@ public class EventHandler {
         if(xCor >= 0 && xCor <= 600  && yCor >= 0 && yCor <= 600) {
             column = (int) xCor/40;
             row = (int) yCor/40;
+            clickTile(row, column);
         }
 
         if(xCor >= 40 && xCor <= 320  && yCor >= 700 && yCor <= 740) {
             trayNumber = (int) (xCor - 40) /40;
+            clickTray(trayNumber);
         }
 
         if(xCor >= 50 && xCor <= 150  && yCor >= 630 && yCor <= 680) {
@@ -49,11 +51,11 @@ public class EventHandler {
         }
 
         if(xCor >= 200 && xCor <= 300  && yCor >= 630 && yCor <= 680) {
-            System.out.println("Swap Button");
+            swapButton();
         }
 
         if(xCor >= 350 && xCor <= 450  && yCor >= 630 && yCor <= 680) {
-            System.out.println("Undo Button");
+            undoButton();
         }
 
 
@@ -61,7 +63,19 @@ public class EventHandler {
 
 
     public void clickTile(int row, int column) {
+        if(p1.isTraySelected()) {
+            if(board.isFree(row, column)) {
+                p1.putTileToBoard(row, column, p1.getSelectedTray());
+                p1.setTraySelected(false);
+                p1.setSelectedTray(0);
+            }
+        }
+    }
 
+    public void undoButton() {
+        this.undoBoard();
+        p1.setTraySelected(false);
+        p1.setSelectedTray(0);
     }
 
     public void playButton() {
@@ -69,10 +83,37 @@ public class EventHandler {
     }
 
     public void swapButton() {
+        if(board.isSwapInitialize()) {
+            board.setSwapInitialize(false);
+            p1.swapSelectedTiles();
+            p1.setSwapSelectedTrayIndexNull();
+        }
+        else {
+            undoBoard();
+            p1.setTraySelected(false);
+            p1.setSelectedTray(0);
+            board.setSwapInitialize(true);
+        }
+
 
     }
 
     public void clickTray(int trayNumber) {
+        if(board.isSwapInitialize()) {
+            p1.setSwapSelectedTrayIndex(trayNumber);
+        }
 
+        else {
+            if(p1.getDuplicateTray().length() - 1 >= trayNumber) {
+                p1.setTraySelected(true);
+                p1.setSelectedTray(trayNumber);
+            }
+
+        }
+    }
+
+    public void undoBoard() {
+        board.revertDuplicateBoard();
+        p1.revertDuplicateTray();
     }
 }

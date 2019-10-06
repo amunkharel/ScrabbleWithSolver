@@ -150,4 +150,21 @@ public class Board {
     public char [][] getDuplicateboard () {
         return  duplicateboard;
     }
+
+    public boolean isFree(int x, int y) {
+        if(duplicateboard[x][y] == '-' || duplicateboard[x][y] == '1' ||
+                duplicateboard[x][y] == '2' || duplicateboard[x][y] == '3' || duplicateboard[x][y] == '4' ||
+                duplicateboard[x][y] == '@' || duplicateboard[x][y] == '!' || duplicateboard[x][y] == '$') {
+            return true;
+        }
+        return  false;
+    }
+
+    public void revertDuplicateBoard() {
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                duplicateboard[i][j] = board[i][j];
+            }
+        }
+    }
 }
