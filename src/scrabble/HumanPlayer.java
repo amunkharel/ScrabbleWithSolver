@@ -58,6 +58,8 @@ public class HumanPlayer {
             tray =  tray + tiles.get(i).getLetter();
             duplicateTray = duplicateTray + tiles.get(i).getLetter();
         }
+        tray = "*abcsds";
+        duplicateTray = "*abcsds";
     }
 
     public String getDuplicateTray() {
@@ -127,5 +129,9 @@ public class HumanPlayer {
     public List<Integer> sortDescending() {
         Collections.sort(swapSelectedTrayIndex, Collections.reverseOrder());
         return swapSelectedTrayIndex;
+    }
+
+    public void setDuplicateTray(String duplicateTray) {
+        this.duplicateTray = duplicateTray;
     }
 }

@@ -105,8 +105,17 @@ public class EventHandler {
 
         else {
             if(p1.getDuplicateTray().length() - 1 >= trayNumber) {
-                p1.setTraySelected(true);
-                p1.setSelectedTray(trayNumber);
+                if(p1.getTray().charAt(trayNumber) == '*') {
+                    p1.setTraySelected(true);
+                    p1.setSelectedTray(trayNumber);
+                    this.changeWildCardToWords(trayNumber);
+
+                }
+                else {
+                    p1.setTraySelected(true);
+                    p1.setSelectedTray(trayNumber);
+                }
+
             }
 
         }
@@ -115,5 +124,26 @@ public class EventHandler {
     public void undoBoard() {
         board.revertDuplicateBoard();
         p1.revertDuplicateTray();
+    }
+
+    public void changeWildCardToWords(int trayNumber) {
+        String newWord = "";
+
+        if(p1.getDuplicateTray().charAt(trayNumber) == '*') {
+            newWord = p1.getDuplicateTray().substring(0, trayNumber) + 'A' +
+                    p1.getDuplicateTray().substring(trayNumber + 1);
+            p1.setDuplicateTray(newWord);
+        }
+
+        else {
+            int int_char = p1.getDuplicateTray().charAt(trayNumber)  + 1;
+            if(int_char <= 90) {
+                char character = (char) int_char;
+
+                newWord = p1.getDuplicateTray().substring(0, trayNumber) + character +
+                        p1.getDuplicateTray().substring(trayNumber + 1);
+                p1.setDuplicateTray(newWord);
+            }
+        }
     }
 }
