@@ -58,8 +58,6 @@ public class HumanPlayer {
             tray =  tray + tiles.get(i).getLetter();
             duplicateTray = duplicateTray + tiles.get(i).getLetter();
         }
-        tray = "*abcsds";
-        duplicateTray = "*abcsds";
     }
 
     public String getDuplicateTray() {
