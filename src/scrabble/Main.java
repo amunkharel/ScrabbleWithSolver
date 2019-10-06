@@ -4,9 +4,7 @@ package scrabble;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -25,9 +23,11 @@ public class Main extends Application {
     private  HumanPlayer p1 = new HumanPlayer(board, dictionary, bag, score);
 
     private BorderPane bp = new BorderPane();
-    private Canvas canvas = new Canvas(700, 700);
+    private Canvas canvas = new Canvas(750, 750);
 
     private Scene scene = new Scene(bp, 800, 800);
+
+    private GUI gui = new GUI(p1, canvas, board, bag, score);
 
 
 
@@ -109,13 +109,13 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
+        score = new Score(bag, board);
+        p2 = new ComputerPlayer(board, dictionary, bag, score);
+        p1 = new HumanPlayer(board, dictionary, bag, score);
         p2.setTrayFromBag();
         p1.setTrayFromBag();
-        bag.printBag();
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.KHAKI);
-        gc.fillRect(0, 0, 700, 700);
+        gui = new GUI(p1, canvas, board, bag, score);
+        gui.updateCanvas();
 
         bp.setCenter(canvas);
         stage.setScene(scene);

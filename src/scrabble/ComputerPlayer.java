@@ -40,8 +40,6 @@ public class ComputerPlayer {
             tray =  tray + tiles.get(i).getLetter();
             duplicateTray = duplicateTray + tiles.get(i).getLetter();
         }
-        System.out.println(tray);
-        System.out.println(duplicateTray);
     }
 
 

@@ -35,8 +35,13 @@ public class HumanPlayer {
             tray =  tray + tiles.get(i).getLetter();
             duplicateTray = duplicateTray + tiles.get(i).getLetter();
         }
-        System.out.println(tray);
-        System.out.println(duplicateTray);
     }
 
+    public String getDuplicateTray() {
+        return  duplicateTray;
+    }
+
+    public String getTray() {
+        return  tray;
+    }
 }

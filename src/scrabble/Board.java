@@ -41,6 +41,8 @@ public class Board {
             for(int j = 0; j < size; j++) {
                 System.out.print(duplicateboard[i][j] + " ");
             }
+
+
             System.out.println("");
         }
     }
