@@ -167,7 +167,25 @@ public class HumanPlayer {
                 return false;
             }
 
-            firstMove = false;
+            if(isPlacedVerticallyOrHorizontally() == 'h') {
+                if(isValidPlacement('h')) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+            if(isPlacedVerticallyOrHorizontally() == 'v') {
+                if(isValidPlacement('v')) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+
         }
 
         else  {
@@ -183,7 +201,23 @@ public class HumanPlayer {
                 return false;
             }
 
+            if(isPlacedVerticallyOrHorizontally() == 'h') {
+                if(isValidPlacement('h')) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
 
+            if(isPlacedVerticallyOrHorizontally() == 'v') {
+                if(isValidPlacement('v')) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
 
         }
         return false;
@@ -252,23 +286,29 @@ public class HumanPlayer {
         Collections.sort(rowIndex);
         Collections.sort(columnIndex);
 
+        int startingRow = rowIndex.get(0);
+        int startingColumn = columnIndex.get(0);
+
 
         if(direction == 'h') {
             for (int i = columnIndex.get(0); i < columnIndex.get(columnIndex.size() - 1); i++) {
                 if(!columnIndex.contains(i)) {
-                    System.out.println(i);
+                    if(board.isFreeRealBoard(startingRow, i)) {
+                        return false;
+                    }
                 }
             }
         }
 
         if(direction == 'v') {
-            
+            for(int i = rowIndex.get(0); i < rowIndex.get(rowIndex.size() - 1); i++) {
+                if(!rowIndex.contains(i)) {
+                    if(board.isFreeRealBoard(i, startingColumn)) {
+                        return false;
+                    }
+                }
+            }
         }
-
-
         return true;
     }
-
-
-
 }

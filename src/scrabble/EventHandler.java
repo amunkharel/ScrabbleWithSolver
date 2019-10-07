@@ -75,7 +75,7 @@ public class EventHandler {
     }
 
     public void undoButton() {
-        System.out.println(p1.isValidPlacement('h'));
+        System.out.println(p1.checkForValidPlacement());
         this.undoBoard();
         p1.setTraySelected(false);
         p1.setSelectedTray(0);
