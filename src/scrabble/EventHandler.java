@@ -29,6 +29,7 @@ public class EventHandler {
         this.p2 = p2;
         this.xCor = xCor;
         this.yCor = yCor;
+
     }
 
     public void handleEvent() {
@@ -68,14 +69,17 @@ public class EventHandler {
                 p1.putTileToBoard(row, column, p1.getSelectedTray());
                 p1.setTraySelected(false);
                 p1.setSelectedTray(0);
+                p1.setPlacedCordinate(new Cordinate(row, column));
             }
         }
     }
 
     public void undoButton() {
+        System.out.println(p1.isValidPlacement('h'));
         this.undoBoard();
         p1.setTraySelected(false);
         p1.setSelectedTray(0);
+        p1.setPlacedCordinateToNull();
     }
 
     public void playButton() {

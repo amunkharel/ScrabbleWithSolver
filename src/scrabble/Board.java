@@ -57,11 +57,24 @@ public class Board {
     }
 
     public List<Cordinate> getValidCordinates() {
-
-
         boolean cordinateAdded = false;
+        boolean hasCharacter = false;
+        for(int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(!isFreeRealBoard(i, j)) {
+                    hasCharacter = true;
+                }
+            }
+        }
+
+        if(!hasCharacter) {
+            validCordinates.add(new Cordinate(7, 7));
+            return validCordinates;
+        }
+
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
+
 
                 if(board[i][j] == '-' || board[i][j] == '2' || board[i][j] == '3' ||
                         board[i][j] == '4' || board[i][j] == '$' || board[i][j] == '@'
@@ -155,6 +168,15 @@ public class Board {
         if(duplicateboard[x][y] == '-' || duplicateboard[x][y] == '1' ||
                 duplicateboard[x][y] == '2' || duplicateboard[x][y] == '3' || duplicateboard[x][y] == '4' ||
                 duplicateboard[x][y] == '@' || duplicateboard[x][y] == '!' || duplicateboard[x][y] == '$') {
+            return true;
+        }
+        return  false;
+    }
+
+    public boolean isFreeRealBoard(int x, int y) {
+        if(board[x][y] == '-' || board[x][y] == '1' ||
+                board[x][y] == '2' || board[x][y] == '3' || board[x][y] == '4' ||
+                board[x][y] == '@' || board[x][y] == '!' || board[x][y] == '$') {
             return true;
         }
         return  false;

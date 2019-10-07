@@ -20,9 +20,12 @@ public class HumanPlayer {
     private int selectedTray;
     private char [][] duplicateBoard;
     private List<Integer> swapSelectedTrayIndex = new ArrayList<>();
+    private List<Cordinate> placedCordinate;
+    private boolean firstMove;
 
     public HumanPlayer(Board board, Dictionary dictionary, Bag bag, Score score) {
         validCordinates = new ArrayList<Cordinate>();
+        placedCordinate = new ArrayList<Cordinate>();
         this.board = board;
         boardArray = board.getBoard();
         this.dictionary = dictionary;
@@ -31,6 +34,7 @@ public class HumanPlayer {
         this.score = score;
         traySelected = false;
         duplicateBoard = board.getDuplicateboard();
+        firstMove = true;
     }
 
     public void setTraySelected(boolean traySelected) {
@@ -87,7 +91,9 @@ public class HumanPlayer {
     }
 
     public void setSwapSelectedTrayIndex(int tileIndex) {
-        this.swapSelectedTrayIndex.add(tileIndex);
+        if(!swapSelectedTrayIndex.contains(tileIndex)) {
+            this.swapSelectedTrayIndex.add(tileIndex);
+        }
     }
 
     public List<Integer> getSwapSelectedTrayIndex() {
@@ -132,4 +138,137 @@ public class HumanPlayer {
     public void setDuplicateTray(String duplicateTray) {
         this.duplicateTray = duplicateTray;
     }
+
+    public void setPlacedCordinate(Cordinate cordinate) {
+        placedCordinate.add(cordinate);
+    }
+
+    public void setPlacedCordinateToNull() {
+        placedCordinate.clear();
+    }
+
+    public void printPlacedCordinate() {
+        for (int i = 0; i < placedCordinate.size(); i++) {
+            System.out.println(placedCordinate.get(i).getX() + " " + placedCordinate.get(i).getY());
+        }
+    }
+
+    public boolean checkForValidPlacement() {
+        if(firstMove) {
+            if(placedCordinate.size() < 2) {
+                return  false;
+            }
+
+            if(!isPlacedOnValidCoordinate()) {
+                return false;
+            }
+
+            if(isPlacedVerticallyOrHorizontally() == 'n') {
+                return false;
+            }
+
+            firstMove = false;
+        }
+
+        else  {
+            if(placedCordinate.size() < 1) {
+                return false;
+            }
+
+            if(!isPlacedOnValidCoordinate()) {
+                return  false;
+            }
+
+            if(isPlacedVerticallyOrHorizontally() == 'n') {
+                return false;
+            }
+
+
+
+        }
+        return false;
+    }
+
+    public boolean isPlacedOnValidCoordinate() {
+        validCordinates = board.getValidCordinates();
+
+
+        for (int i = 0; i < validCordinates.size(); i++) {
+
+            for (int j = 0; j < placedCordinate.size(); j++) {
+
+                if(placedCordinate.get(j).getX() == validCordinates.get(i).getX() &&
+                        placedCordinate.get(j).getY() == validCordinates.get(i).getY()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public char isPlacedVerticallyOrHorizontally() {
+        int startingRow = placedCordinate.get(0).getX();
+        int startingColumn = placedCordinate.get(0).getY();
+        boolean sameRow = true;
+        boolean sameColumn = true;
+        for(int i = 1; i < placedCordinate.size(); i++){
+            if(placedCordinate.get(i).getX() != startingRow) {
+                sameRow = false;
+                break;
+            }
+        }
+
+        for(int i = 1; i < placedCordinate.size(); i++){
+            if(placedCordinate.get(i).getY() != startingColumn) {
+                sameColumn = false;
+                break;
+            }
+        }
+
+        if(sameColumn) {
+            return 'v';
+        }
+
+        if(sameRow) {
+            return 'h';
+        }
+
+        if(!sameColumn && !sameColumn) {
+            return 'n';
+        }
+
+        return  'n';
+    }
+
+    public boolean isValidPlacement(char direction) {
+        List<Integer> rowIndex = new ArrayList<>();
+        List<Integer> columnIndex = new ArrayList<>();
+
+        for(int i = 0; i < placedCordinate.size(); i++) {
+            rowIndex.add(placedCordinate.get(i).getX());
+            columnIndex.add(placedCordinate.get(i).getY());
+        }
+        Collections.sort(rowIndex);
+        Collections.sort(columnIndex);
+
+
+        if(direction == 'h') {
+            for (int i = columnIndex.get(0); i < columnIndex.get(columnIndex.size() - 1); i++) {
+                if(!columnIndex.contains(i)) {
+                    System.out.println(i);
+                }
+            }
+        }
+
+        if(direction == 'v') {
+            
+        }
+
+
+        return true;
+    }
+
+
+
 }
