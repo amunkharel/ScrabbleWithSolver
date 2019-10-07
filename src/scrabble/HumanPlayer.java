@@ -154,6 +154,16 @@ public class HumanPlayer {
     }
 
     public boolean checkForValidPlacement() {
+        validCordinates = board.getValidCordinates();
+        if(validCordinates.get(0).getX() == 7 && validCordinates.get(0).getY() == 7) {
+            firstMove = true;
+        }
+
+        else {
+            firstMove = false;
+        }
+        
+
         if(firstMove) {
             if(placedCordinate.size() < 2) {
                 return  false;
@@ -224,7 +234,7 @@ public class HumanPlayer {
     }
 
     public boolean isPlacedOnValidCoordinate() {
-        validCordinates = board.getValidCordinates();
+
 
 
         for (int i = 0; i < validCordinates.size(); i++) {
