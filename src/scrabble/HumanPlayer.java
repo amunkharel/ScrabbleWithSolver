@@ -153,7 +153,7 @@ public class HumanPlayer {
         }
     }
 
-    public boolean checkForValidPlacement() {
+    public char checkForValidPlacement() {
         validCordinates = board.getValidCordinates();
         if(validCordinates.get(0).getX() == 7 && validCordinates.get(0).getY() == 7) {
             firstMove = true;
@@ -162,36 +162,36 @@ public class HumanPlayer {
         else {
             firstMove = false;
         }
-        
+
 
         if(firstMove) {
             if(placedCordinate.size() < 2) {
-                return  false;
+                return  'n';
             }
 
             if(!isPlacedOnValidCoordinate()) {
-                return false;
+                return 'n';
             }
 
             if(isPlacedVerticallyOrHorizontally() == 'n') {
-                return false;
+                return 'n';
             }
 
             if(isPlacedVerticallyOrHorizontally() == 'h') {
                 if(isValidPlacement('h')) {
-                    return true;
+                    return 'h';
                 }
                 else {
-                    return false;
+                    return 'n';
                 }
             }
 
             if(isPlacedVerticallyOrHorizontally() == 'v') {
                 if(isValidPlacement('v')) {
-                    return true;
+                    return 'v';
                 }
                 else {
-                    return false;
+                    return 'n';
                 }
             }
 
@@ -200,37 +200,37 @@ public class HumanPlayer {
 
         else  {
             if(placedCordinate.size() < 1) {
-                return false;
+                return 'n';
             }
 
             if(!isPlacedOnValidCoordinate()) {
-                return  false;
+                return  'n';
             }
 
             if(isPlacedVerticallyOrHorizontally() == 'n') {
-                return false;
+                return 'n';
             }
 
             if(isPlacedVerticallyOrHorizontally() == 'h') {
                 if(isValidPlacement('h')) {
-                    return true;
+                    return 'h';
                 }
                 else {
-                    return false;
+                    return 'n';
                 }
             }
 
             if(isPlacedVerticallyOrHorizontally() == 'v') {
                 if(isValidPlacement('v')) {
-                    return true;
+                    return 'v';
                 }
                 else {
-                    return false;
+                    return 'n';
                 }
             }
 
         }
-        return false;
+        return 'n';
     }
 
     public boolean isPlacedOnValidCoordinate() {

@@ -48,7 +48,7 @@ public class EventHandler {
         }
 
         if(xCor >= 50 && xCor <= 150  && yCor >= 630 && yCor <= 680) {
-            System.out.println("Play Button");
+            playButton();
         }
 
         if(xCor >= 200 && xCor <= 300  && yCor >= 630 && yCor <= 680) {
@@ -75,15 +75,25 @@ public class EventHandler {
     }
 
     public void undoButton() {
-        System.out.println(p1.checkForValidPlacement());
         this.undoBoard();
         p1.setTraySelected(false);
         p1.setSelectedTray(0);
-        p1.setPlacedCordinateToNull();
+
     }
 
     public void playButton() {
 
+        if(p1.checkForValidPlacement() == 'n') {
+            undoBoard();
+        }
+
+        if(p1.checkForValidPlacement() == 'h') {
+
+        }
+
+        if(p1.checkForValidPlacement() == 'v') {
+            
+        }
     }
 
     public void swapButton() {
@@ -128,6 +138,7 @@ public class EventHandler {
     public void undoBoard() {
         board.revertDuplicateBoard();
         p1.revertDuplicateTray();
+        p1.setPlacedCordinateToNull();
     }
 
     public void changeWildCardToWords(int trayNumber) {
