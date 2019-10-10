@@ -88,11 +88,18 @@ public class EventHandler {
         }
 
         if(p1.checkForValidPlacement() == 'h') {
+            if(p1.checkForValidWordInHorizontal()) {
+                //check for score
+            }
 
+            else {
+                //player loses turn
+            }
         }
 
         if(p1.checkForValidPlacement() == 'v') {
-            
+            System.out.println("Vertical Move");
+
         }
     }
 
