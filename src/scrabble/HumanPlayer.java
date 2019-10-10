@@ -22,6 +22,8 @@ public class HumanPlayer {
     private List<Integer> swapSelectedTrayIndex = new ArrayList<>();
     private List<Cordinate> placedCordinate;
     private boolean firstMove;
+    private int currentScore;
+    private int totalScore;
 
     public HumanPlayer(Board board, Dictionary dictionary, Bag bag, Score score) {
         validCordinates = new ArrayList<Cordinate>();
@@ -35,6 +37,8 @@ public class HumanPlayer {
         traySelected = false;
         duplicateBoard = board.getDuplicateboard();
         firstMove = true;
+        currentScore = 0;
+        totalScore = 0;
     }
 
     public void setTraySelected(boolean traySelected) {
@@ -339,6 +343,251 @@ public class HumanPlayer {
 
     }
 
+    public boolean checkForValidWordInVertical() {
+
+
+        if(verticalValidMoveSideways()) {
+            if(verticalMoveValidInLeftRight()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+
+
+    }
+
+    public boolean verticalValidMoveSideways() {
+
+        List<Integer> rowIndex = new ArrayList<>();
+        List<Integer> columnIndex = new ArrayList<>();
+
+        for(int i = 0; i < placedCordinate.size(); i++) {
+            rowIndex.add(placedCordinate.get(i).getX());
+            columnIndex.add(placedCordinate.get(i).getY());
+        }
+        Collections.sort(rowIndex);
+        Collections.sort(columnIndex);
+
+        String completeWord = "";
+        int startingRow = rowIndex.get(0);
+        int startingColumn = columnIndex.get(0);
+
+        int maxTopIndex = startingRow;
+
+        int maxBottomIndex = rowIndex.get(rowIndex.size() - 1);
+
+        if(!board.boardOutOfIndex(maxTopIndex - 1,  startingColumn)) {
+            if(!board.isFreeRealBoard(maxTopIndex - 1, startingColumn)) {
+                for(int j = maxTopIndex - 1; j >= 0; j-- ) {
+                    if(!board.isFreeRealBoard(j,startingColumn)) {
+                        maxTopIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(!board.boardOutOfIndex(maxBottomIndex + 1, startingColumn)) {
+            if(!board.isFreeRealBoard(maxBottomIndex + 1,  startingColumn)) {
+                for(int j = maxBottomIndex + 1; j < board.getSize(); j++ ) {
+                    if(!board.isFreeRealBoard(j,startingColumn)) {
+                        maxBottomIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        for(int i = maxTopIndex; i <= maxBottomIndex; i++) {
+            if(rowIndex.contains(i)) {
+                completeWord = completeWord + duplicateBoard[i][startingColumn];
+            }
+            else {
+                completeWord = completeWord + boardArray[i][startingColumn];
+            }
+        }
+
+        if(maxBottomIndex == maxTopIndex) {
+            return true;
+        }
+
+        else if(dictionary.isValidMove(completeWord)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean verticalMoveValidInLeftRight() {
+
+        List<Integer> rowIndex = new ArrayList<>();
+        List<Integer> columnIndex = new ArrayList<>();
+
+        for(int i = 0; i < placedCordinate.size(); i++) {
+            rowIndex.add(placedCordinate.get(i).getX());
+            columnIndex.add(placedCordinate.get(i).getY());
+        }
+        Collections.sort(rowIndex);
+        Collections.sort(columnIndex);
+
+        int startingRow = rowIndex.get(0);
+        int startingColumn = columnIndex.get(0);
+
+        int maxTopIndex = startingRow;
+
+        int maxBottomIndex = rowIndex.get(rowIndex.size() - 1);
+
+        boolean isValidInAllDirection = true;
+        for(int i = maxTopIndex; i <= maxBottomIndex; i++) {
+
+            if(rowIndex.contains(i)) {
+                if(!validMoveLeftRight(duplicateBoard[i][startingColumn], i, startingColumn)) {
+                    isValidInAllDirection = false;
+                    break;
+                }
+            }
+
+        }
+
+        if(isValidInAllDirection) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean validMoveLeftRight(char character, int row, int column) {
+        int startIndex = 0;
+        int stopIndex = 0;
+        String completeWord = "";
+
+        boolean noLeftMove = false;
+        boolean noRightMove = false;
+
+        if(board.boardOutOfIndex(row, column - 1)) {
+            noLeftMove = true;
+        }
+
+        else {
+            if(board.isFreeRealBoard(row, column  - 1)) {
+                noLeftMove = true;
+            }
+        }
+
+        if(board.boardOutOfIndex(row, column + 1)) {
+            noRightMove = true;
+        }
+
+        else {
+            if(board.isFreeRealBoard(row, column + 1)) {
+                noRightMove = true;
+            }
+        }
+
+        if(noLeftMove && noRightMove) {
+            return true;
+        }
+
+
+        else if(!noLeftMove && noRightMove) {
+
+            startIndex = column;
+            for(int i = column - 1; i >=0; i--) {
+                if(board.isFreeRealBoard(row, i)) {
+                    break;
+                }
+                startIndex--;
+            }
+            for(int i = startIndex; i < column; i++) {
+                completeWord = completeWord +boardArray[row][i];
+            }
+            completeWord = completeWord + character;
+
+            if(dictionary.isValidMove(completeWord)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        else if(noLeftMove && !noRightMove) {
+            completeWord = completeWord + character;
+            for(int i = column + 1; i < board.getSize(); i++) {
+                if(board.isFreeRealBoard(row, i)){
+                    break;
+                }
+                else {
+                    completeWord = completeWord + boardArray[row][i];
+                }
+            }
+
+            if(dictionary.isValidMove(completeWord)) {
+                return true;
+            }
+
+            else {
+                return false;
+            }
+
+        }
+
+        else if(!noLeftMove && !noRightMove) {
+            startIndex = column;
+            stopIndex = column;
+
+            for(int i = column - 1; i >= 0; i--) {
+                if(board.isFreeRealBoard(row, i)) {
+                    break;
+                }
+
+                else {
+                    startIndex--;
+                }
+            }
+
+            for (int i = column + 1; i < board.getSize(); i++) {
+                if(board.isFreeRealBoard(row,i )) {
+                    break;
+                }
+                else {
+                    stopIndex++;
+                }
+            }
+
+            for(int i = startIndex; i < column; i++) {
+                completeWord = completeWord +boardArray[row][i];
+            }
+            completeWord = completeWord + character;
+
+            for (int i = column + 1; i <= stopIndex; i++) {
+                completeWord = completeWord + boardArray[row][i];
+            }
+
+            if(dictionary.isValidMove(completeWord)) {
+                return true;
+            }
+            else  {
+                return false;
+            }
+        }
+
+
+
+        return false;
+    }
+
     public boolean horizontalValidMoveSideWays() {
         List<Integer> rowIndex = new ArrayList<>();
         List<Integer> columnIndex = new ArrayList<>();
@@ -394,7 +643,10 @@ public class HumanPlayer {
 
         }
 
-        if(dictionary.isValidMove(completeWord)) {
+        if(maxLeftIndex == maxRightIndex) {
+            return true;
+        }
+        else if(dictionary.isValidMove(completeWord)) {
             return true;
         }
         else {
@@ -421,7 +673,7 @@ public class HumanPlayer {
         int maxRightIndex = columnIndex.get(columnIndex.size() - 1);
 
         boolean isValidInAllDirection = true;
-        for(int i = maxLeftIndex; i < maxRightIndex; i++) {
+        for(int i = maxLeftIndex; i <= maxRightIndex; i++) {
 
             if(columnIndex.contains(i)) {
                 if(!validMoveTopDown(duplicateBoard[startingRow][i], startingRow, i)) {

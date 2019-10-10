@@ -89,16 +89,25 @@ public class EventHandler {
 
         if(p1.checkForValidPlacement() == 'h') {
             if(p1.checkForValidWordInHorizontal()) {
+                System.out.println("Is valid horizontal move");
                 //check for score
+                //places it on the board
             }
 
             else {
+                //undo
                 //player loses turn
             }
         }
 
         if(p1.checkForValidPlacement() == 'v') {
-            System.out.println("Vertical Move");
+            if(p1.checkForValidWordInVertical()) {
+                System.out.println("Is valid vertical move");
+            }
+
+            else {
+
+            }
 
         }
     }
