@@ -541,6 +541,10 @@ public class Score {
         return  false;
     }
 
+    public int getCompTotalScore() {
+        return compTotalScore;
+    }
+
     public int getComputerBestMoveRow() {
         return  currentBestMoveRowComp;
     }

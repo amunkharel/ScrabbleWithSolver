@@ -33,7 +33,6 @@ public class EventHandler {
     }
 
     public void handleEvent() {
-        p2.updateTray("leed");
         int row = 0;
         int column = 0;
         int trayNumber = 0;
@@ -91,22 +90,35 @@ public class EventHandler {
         if(p1.checkForValidPlacement() == 'h') {
             if(p1.checkForValidWordInHorizontal()) {
                 p1.updateScore('h');
-                //places it on the board
+                p1.placeTilesOnBoard();
+                p1.updateTray();
+                undoBoard();
+                p2.startAI();
+                p2.placeBestMove();
             }
 
             else {
-                //undo
-                //player loses turn
+                undoBoard();
+                p2.startAI();
+                p2.placeBestMove();
             }
         }
 
         if(p1.checkForValidPlacement() == 'v') {
             if(p1.checkForValidWordInVertical()) {
                 p1.updateScore('v');
+                p1.placeTilesOnBoard();
+                p1.updateTray();
+                undoBoard();
+
+                p2.startAI();
+                p2.placeBestMove();
             }
 
             else {
-
+                undoBoard();
+                p2.startAI();
+                p2.placeBestMove();
             }
 
         }

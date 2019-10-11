@@ -94,7 +94,7 @@ public class GUI {
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(20));
-        gc.fillText("100", 640 , 80 );
+        gc.fillText(String.valueOf(p1.getTotalScore()), 640 , 80 );
 
         gc.setFill(Color.CORAL);
         gc.fillRect(630, 150, 100, 50);
@@ -109,7 +109,7 @@ public class GUI {
 
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(20));
-        gc.fillText("100", 640 , 190 );
+        gc.fillText(String.valueOf(score.getCompTotalScore()), 640 , 190 );
 
     }
 

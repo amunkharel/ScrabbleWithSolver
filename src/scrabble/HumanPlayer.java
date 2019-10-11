@@ -1340,4 +1340,8 @@ public class HumanPlayer {
         }
         return  false;
     }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
 }

@@ -155,6 +155,12 @@ public class Board {
                 board[row + i][column] = word.charAt(i);
             }
         }
+
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                duplicateboard[i][j] = board[i][j];
+            }
+        }
     }
 
     public void placeLetterDuplicateBoard(int row, int column, char letter) {
