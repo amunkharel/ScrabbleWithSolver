@@ -66,6 +66,9 @@ public class HumanPlayer {
             tray =  tray + tiles.get(i).getLetter();
             duplicateTray = duplicateTray + tiles.get(i).getLetter();
         }
+
+        tray = "lemo*ed";
+        duplicateTray = "lemo*ed";
     }
 
     public String getDuplicateTray() {
@@ -806,5 +809,520 @@ public class HumanPlayer {
 
         }
         return false;
+    }
+
+    public void updateScore(char direction) {
+
+        if(placedCordinate.size() == 7) {
+            currentScore = currentScore + 50;
+        }
+
+        if(direction == 'h') {
+            calculateScoreForWordLeftRight();
+        }
+
+        if(direction == 'v') {
+            calculateScoreForWordTopBottom();
+        }
+
+    }
+
+    public  void calculateScoreForWordTopBottom() {
+        int multiplier = 1;
+        int wordScore = 0;
+
+        List<Integer> rowIndex = new ArrayList<>();
+        List<Integer> columnIndex = new ArrayList<>();
+
+        for(int i = 0; i < placedCordinate.size(); i++) {
+            rowIndex.add(placedCordinate.get(i).getX());
+            columnIndex.add(placedCordinate.get(i).getY());
+        }
+        Collections.sort(rowIndex);
+        Collections.sort(columnIndex);
+
+        int startingRow = rowIndex.get(0);
+        int startingColumn = columnIndex.get(0);
+
+        int maxTopIndex = startingRow;
+
+        int maxBottomIndex = rowIndex.get(rowIndex.size() - 1);
+
+        if(!board.boardOutOfIndex(maxTopIndex - 1,  startingColumn)) {
+            if(!board.isFreeRealBoard(maxTopIndex - 1, startingColumn)) {
+                for(int j = maxTopIndex - 1; j >= 0; j-- ) {
+                    if(!board.isFreeRealBoard(j,startingColumn)) {
+                        maxTopIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(!board.boardOutOfIndex(maxBottomIndex + 1, startingColumn)) {
+            if(!board.isFreeRealBoard(maxBottomIndex + 1,  startingColumn)) {
+                for(int j = maxBottomIndex + 1; j < board.getSize(); j++ ) {
+                    if(!board.isFreeRealBoard(j,startingColumn)) {
+                        maxBottomIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        for(int i = maxTopIndex; i <= maxBottomIndex; i++) {
+            if(rowIndex.contains(i)) {
+                if(containsWordsMultiplier(i, startingColumn)) {
+                    multiplier = multiplier * multiplierScore(boardArray[i][startingColumn]);
+                }
+
+                else if(containsLetterMultiplier(i, startingColumn)) {
+                    wordScore = wordScore + bag.getScore(duplicateBoard[i][startingColumn])
+                            * letterMultiplierScore(boardArray[i][startingColumn]);
+                }
+                else {
+                    wordScore = wordScore + bag.getScore(duplicateBoard[i][startingColumn]);
+                }
+                calculateScoreInLeftRight(i, startingColumn, duplicateBoard[i][startingColumn]);
+            }
+            else {
+                wordScore = wordScore + bag.getScore(boardArray[i][startingColumn]);
+            }
+        }
+
+        wordScore = wordScore * multiplier;
+
+        currentScore = currentScore + wordScore;
+
+        totalScore = totalScore + currentScore;
+        currentScore = 0;
+
+
+    }
+
+    public void calculateScoreInLeftRight
+            (int row, int column, char character) {
+        int score = 0;
+        int multiplier = 1;
+        int startIndex = 0;
+        int stopIndex = 0;
+        boolean noLeftMove = false;
+        boolean noRightMove = false;
+
+        if(boardOutOfIndex(row, column - 1)) {
+            noLeftMove = true;
+        }
+
+        else {
+            if(isFree(row, column - 1)) {
+                noLeftMove = true;
+            }
+        }
+
+        if(boardOutOfIndex(row, column + 1)) {
+            noRightMove = true;
+        }
+
+        else {
+            if(isFree(row, column + 1)) {
+                noRightMove = true;
+            }
+        }
+
+
+        if(noLeftMove && !noRightMove) {
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            for(int i = column + 1; i < board.getSize(); i++) {
+                if(isFree(row, i)){
+                    break;
+                }
+                else {
+                    score = score + bag.getScore(boardArray[row][i]);
+                }
+            }
+        }
+
+        else if(noRightMove && !noLeftMove) {
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            startIndex = column;
+            for(int i = column - 1; i >= 0; i--) {
+                if(isFree(row, i)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+            for(int i = startIndex; i < column; i++) {
+                score = score + bag.getScore(boardArray[row][i]);
+            }
+
+        }
+
+
+        else if(!noLeftMove && !noRightMove) {
+
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            startIndex = column;
+            stopIndex = column;
+            for(int i = column - 1; i >= 0; i--) {
+                if(isFree(row, i)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+
+            for(int i = column + 1; i < board.getSize(); i++) {
+                if(isFree(row, i)){
+                    break;
+                }
+                else {
+                    stopIndex ++;
+                }
+            }
+
+            for(int i = startIndex; i < column; i++) {
+                score = score + bag.getScore(boardArray[row][i]);
+            }
+
+            for (int i = column + 1; i <= stopIndex; i++) {
+                score = score + bag.getScore(boardArray[row][i]);
+            }
+
+        }
+
+        score = score*multiplier;
+
+        currentScore = currentScore + score;
+
+
+    }
+
+
+    public void calculateScoreForWordLeftRight() {
+        int multiplier = 1;
+        int wordScore = 0;
+
+        List<Integer> rowIndex = new ArrayList<>();
+        List<Integer> columnIndex = new ArrayList<>();
+
+        for(int i = 0; i < placedCordinate.size(); i++) {
+            rowIndex.add(placedCordinate.get(i).getX());
+            columnIndex.add(placedCordinate.get(i).getY());
+        }
+        Collections.sort(rowIndex);
+        Collections.sort(columnIndex);
+
+        String completeWord = "";
+        int startingRow = rowIndex.get(0);
+        int startingColumn = columnIndex.get(0);
+
+        int maxLeftIndex = startingColumn;
+
+        int maxRightIndex = columnIndex.get(columnIndex.size() - 1);
+
+        if(!board.boardOutOfIndex(startingRow, maxLeftIndex -1)) {
+            if(!board.isFreeRealBoard(startingRow, maxLeftIndex - 1)) {
+                for(int j = maxLeftIndex - 1; j >= 0; j-- ) {
+                    if(!board.isFreeRealBoard(startingRow,j)) {
+                        maxLeftIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(!board.boardOutOfIndex(startingRow, maxRightIndex +1)) {
+            if(!board.isFreeRealBoard(startingRow, maxRightIndex + 1)) {
+                for(int j = maxRightIndex + 1; j < board.getSize(); j++ ) {
+                    if(!board.isFreeRealBoard(startingRow,j)) {
+                        maxRightIndex = j;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        for(int i = maxLeftIndex; i <= maxRightIndex; i++) {
+            if(columnIndex.contains(i)) {
+                if(containsWordsMultiplier(startingRow, i)) {
+                    multiplier = multiplier * multiplierScore(boardArray[startingRow][i]);
+                }
+
+                else if(containsLetterMultiplier(startingRow, i)) {
+                    wordScore = wordScore + bag.getScore(duplicateBoard[startingRow][i])
+                            * letterMultiplierScore(boardArray[startingRow][i]);
+                }
+                else {
+                    wordScore = wordScore + bag.getScore(duplicateBoard[startingRow][i]);
+                }
+
+                calculateScoreInTopBottom(startingRow, i, duplicateBoard[startingRow][i]);
+            }
+            else {
+                wordScore = wordScore + bag.getScore(boardArray[startingRow][i]);
+            }
+
+        }
+
+        wordScore = wordScore * multiplier;
+
+        currentScore = currentScore + wordScore;
+
+        totalScore = totalScore + currentScore;
+        currentScore = 0;
+
+    }
+
+
+   public void calculateScoreInTopBottom
+            (int row, int column, char character) {
+        int score = 0;
+        int multiplier = 1;
+        int startIndex = 0;
+        int stopIndex = 0;
+        boolean noTopMove = false;
+        boolean noBottomMove = false;
+
+        if(boardOutOfIndex(row - 1, column)) {
+            noTopMove = true;
+        }
+
+        else {
+            if(isFree(row - 1, column)) {
+                noTopMove = true;
+            }
+        }
+
+        if(boardOutOfIndex(row + 1, column)) {
+            noBottomMove = true;
+        }
+
+        else {
+            if(isFree(row + 1, column)) {
+                noBottomMove = true;
+            }
+        }
+
+
+
+        if(noTopMove && !noBottomMove) {
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            for(int i = row + 1; i < board.getSize(); i++) {
+                if(isFree(i, column)){
+                    break;
+                }
+                else {
+                    score = score + bag.getScore(boardArray[i][column]);
+                }
+            }
+        }
+
+        else if(noBottomMove && !noTopMove) {
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            startIndex = row;
+            for(int i = row - 1; i >= 0; i--) {
+                if(isFree(i, column)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+            for(int i = startIndex; i < row; i++) {
+                score = score + bag.getScore(boardArray[i][column]);
+            }
+
+        }
+
+        else if(!noBottomMove && !noTopMove) {
+
+            if(containsWordsMultiplier(row, column)) {
+                multiplier = multiplier * multiplierScore(boardArray[row][column]);
+                score = score + bag.getScore(character);
+            }
+            else if(containsLetterMultiplier(row,column)) {
+                score = score + letterMultiplierScore(boardArray[row][column])
+                        * bag.getScore(character);
+            }
+            else  {
+                score = score + bag.getScore(character);
+            }
+
+            startIndex = row;
+            stopIndex = row;
+            for(int i = row - 1; i >= 0; i--) {
+                if(isFree(i, column)) {
+                    break;
+                }
+                else {
+                    startIndex --;
+                }
+            }
+
+            for(int i = row + 1; i < board.getSize(); i++) {
+                if(isFree(i, column)){
+                    break;
+                }
+                else {
+                    stopIndex ++;
+                }
+            }
+
+            for(int i = startIndex; i < row; i++) {
+                score = score + bag.getScore(boardArray[i][column]);
+            }
+
+            for (int i = row + 1; i <= stopIndex; i++) {
+                score = score + bag.getScore(boardArray[i][column]);
+            }
+
+        }
+
+        score = score*multiplier;
+
+
+        currentScore = currentScore + score;
+
+
+    }
+
+    public void placeTilesOnBoard() {
+        int x = 0;
+        int y = 0;
+        for(int i = 0; i < placedCordinate.size(); i++) {
+            x = placedCordinate.get(i).getX();
+            y = placedCordinate.get(i).getY();
+            board.insertScoreAndIntialLetters(x, y, duplicateBoard[x][y]);
+        }
+    }
+
+
+    public boolean isFree(int x, int y) {
+        if(boardArray[x][y] == '-' || boardArray[x][y] == '1' ||
+                boardArray[x][y] == '2' || boardArray[x][y] == '3' || boardArray[x][y] == '4' ||
+                boardArray[x][y] == '@' || boardArray[x][y] == '!' || boardArray[x][y] == '$') {
+            return true;
+        }
+        return  false;
+    }
+
+    public boolean containsWordsMultiplier(int row, int column) {
+        if(boardArray[row][column] == '@' || boardArray[row][column] == '$' ||
+                boardArray[row][column] == '!') {
+            return true;
+        }
+        return false;
+    }
+
+    public int multiplierScore(char character) {
+        if(character == '@') {
+            return 3;
+        }
+        if(character == '!') {
+            return  2;
+        }
+
+        if(character == '$') {
+            return 4;
+        }
+
+        return 0;
+    }
+
+    public boolean containsLetterMultiplier(int row, int column) {
+        if(boardArray[row][column] == '2' || boardArray[row][column] == '3' ||
+                boardArray[row][column] == '4') {
+            return true;
+        }
+        return false;
+    }
+
+    public int letterMultiplierScore(char character) {
+        if(character == '3') {
+            return 3;
+        }
+        if(character == '2') {
+            return  2;
+        }
+
+        if(character == '4') {
+            return 4;
+        }
+
+        return 0;
+    }
+
+
+    public boolean boardOutOfIndex(int i, int j) {
+        if(i < 0 || j <0 || i > board.getSize() - 1 || j > board.getSize() - 1){
+            return true;
+        }
+        return  false;
     }
 }

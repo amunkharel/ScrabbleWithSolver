@@ -57,6 +57,7 @@ public class Board {
     }
 
     public List<Cordinate> getValidCordinates() {
+        validCordinates.clear();
         boolean cordinateAdded = false;
         boolean hasCharacter = false;
         for(int i = 0; i < size; i++) {

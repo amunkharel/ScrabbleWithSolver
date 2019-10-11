@@ -474,6 +474,7 @@ public class Score {
     }
 
     public void resetCurrentCompScore() {
+        compTotalScore = compTotalScore + compCurrentBestScore;
         compCurrentBestScore = 0;
     }
 

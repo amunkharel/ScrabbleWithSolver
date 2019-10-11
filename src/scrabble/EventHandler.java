@@ -89,8 +89,7 @@ public class EventHandler {
 
         if(p1.checkForValidPlacement() == 'h') {
             if(p1.checkForValidWordInHorizontal()) {
-                System.out.println("Is valid horizontal move");
-                //check for score
+                p1.updateScore('h');
                 //places it on the board
             }
 
@@ -102,7 +101,7 @@ public class EventHandler {
 
         if(p1.checkForValidPlacement() == 'v') {
             if(p1.checkForValidWordInVertical()) {
-                System.out.println("Is valid vertical move");
+                p1.updateScore('v');
             }
 
             else {
