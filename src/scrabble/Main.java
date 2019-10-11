@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -32,6 +33,7 @@ public class Main extends Application {
     private GUI gui = new GUI(p1, canvas, board, bag, score);
     private EventHandler e;
 
+    private Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
 
 
@@ -120,12 +122,37 @@ public class Main extends Application {
         p1.setTrayFromBag();
         gui = new GUI(p1, canvas, board, bag, score);
 
+
         canvas.setOnMousePressed(new javafx.event.EventHandler<MouseEvent>() {
 
             @Override
             public void handle(MouseEvent event) {
                 e = new EventHandler(bag, dictionary, board, score, p1, p2, event.getX(), event.getY());
                 e.handleEvent();
+                if(e.isGameOver()) {
+                    if(p1.getTotalScore() > score.getCompTotalScore()) {
+                        alert.setTitle("Game Over");
+                        alert.setContentText("You have won the game");
+                        alert.showAndWait();
+                        stage.close();
+                    }
+
+                    else if(p1.getTotalScore() < score.getCompTotalScore()) {
+                        alert.setTitle("Game Over");
+                        alert.setContentText("Computer has won the game");
+                        alert.showAndWait();
+                        stage.close();
+                    }
+
+                    else if(p1.getTotalScore() == score.getCompTotalScore()) {
+                        alert.setTitle("Game Over");
+                        alert.setContentText("Game is a draw");
+                        alert.showAndWait();
+                        stage.close();
+                    }
+
+
+                }
             }
         });
 

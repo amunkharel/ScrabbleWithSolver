@@ -45,6 +45,7 @@ public class ComputerPlayer {
 
 
     public void startAI() {
+        letterPermutations.clear();
         validCordinates = board.getValidCordinates();
         makeCombinations();
         for (int i = 0; i < letterPermutations.size(); i++) {
@@ -625,7 +626,6 @@ public class ComputerPlayer {
 
         if(isValidInAllDirection) {
             score.getScore(row, column, 'c', 'v',word);
-            updateTray(word);
 
         }
     }
@@ -765,7 +765,6 @@ public class ComputerPlayer {
         }
         if(isValidInAllDirection) {
             score.getScore(row, column, 'c', 'h', word );
-            updateTray(word);
         }
     }
 
@@ -891,11 +890,15 @@ public class ComputerPlayer {
         int column = score.getComputerBestMoveColumn();
         String word = score.getCompBestCurrentWord();
 
-        int currentBestScore = score.getCompCurrentBestScore();
-        board.placeMove(row, column, direction, word);
-        score.setCompTotalScore(currentBestScore);
-        score.resetCurrentCompScore();
 
+        int currentBestScore = score.getCompCurrentBestScore();
+
+        if(currentBestScore != 0) {
+            updateTray(word);
+            board.placeMove(row, column, direction, word);
+        }
+
+        score.resetCurrentCompScore();
     }
 
     public boolean isFree(int x, int y) {
@@ -924,6 +927,12 @@ public class ComputerPlayer {
                         trayIndex.add(i);
                     }
                 }
+
+                if(letterIsCapital(word.charAt(j)) && tray.charAt(i) == '*') {
+                    if(!trayIndex.contains(i)) {
+                        trayIndex.add(i);
+                    }
+                }
             }
         }
         Collections.sort(trayIndex, Collections.reverseOrder());
@@ -937,6 +946,19 @@ public class ComputerPlayer {
         tiles = bag.giveTilesToTray(replaceNeeded);
         for (int i = 0; i < tiles.size(); i++ ) {
             tray =  tray + tiles.get(i).getLetter();
+        }
+
+
+    }
+
+    public boolean letterIsCapital(char character) {
+        int asci = character - 'A';
+
+        if(asci <= 25 && asci >= 0) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 

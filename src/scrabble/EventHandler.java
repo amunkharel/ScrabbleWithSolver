@@ -18,6 +18,8 @@ public class EventHandler {
 
     private double yCor;
 
+    private boolean gameOver;
+
     public EventHandler(Bag bag, Dictionary dictionary, Board board,
                         Score score, HumanPlayer p1, ComputerPlayer p2,
                         double xCor, double yCor) {
@@ -29,10 +31,15 @@ public class EventHandler {
         this.p2 = p2;
         this.xCor = xCor;
         this.yCor = yCor;
+        this.gameOver = false;
 
     }
 
     public void handleEvent() {
+
+        if(bag.getNumberOfTiles() < 7) {
+            gameOver = true;
+        }
         int row = 0;
         int column = 0;
         int trayNumber = 0;
@@ -129,6 +136,8 @@ public class EventHandler {
             board.setSwapInitialize(false);
             p1.swapSelectedTiles();
             p1.setSwapSelectedTrayIndexNull();
+            p2.startAI();
+            p2.placeBestMove();
         }
         else {
             undoBoard();
@@ -188,5 +197,9 @@ public class EventHandler {
                 p1.setDuplicateTray(newWord);
             }
         }
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 }
