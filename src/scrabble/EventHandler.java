@@ -33,6 +33,7 @@ public class EventHandler {
     }
 
     public void handleEvent() {
+        p2.updateTray("leed");
         int row = 0;
         int column = 0;
         int trayNumber = 0;

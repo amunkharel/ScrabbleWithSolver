@@ -67,8 +67,6 @@ public class HumanPlayer {
             duplicateTray = duplicateTray + tiles.get(i).getLetter();
         }
 
-        tray = "lemo*ed";
-        duplicateTray = "lemo*ed";
     }
 
     public String getDuplicateTray() {
@@ -1259,6 +1257,23 @@ public class HumanPlayer {
             x = placedCordinate.get(i).getX();
             y = placedCordinate.get(i).getY();
             board.insertScoreAndIntialLetters(x, y, duplicateBoard[x][y]);
+        }
+    }
+
+    public void updateTray() {
+        tray = "";
+        int replaceNeeded = 0;
+        for(int i = 0; i < duplicateTray.length(); i++) {
+            tray = tray + duplicateTray.charAt(i);
+        }
+
+        replaceNeeded = 7 - tray.length();
+
+        List<Tile> tiles = new ArrayList<Tile>();
+        tiles = bag.giveTilesToTray(replaceNeeded);
+        for (int i = 0; i < tiles.size(); i++ ) {
+            tray =  tray + tiles.get(i).getLetter();
+            duplicateTray = duplicateTray + tiles.get(i).getLetter();
         }
     }
 

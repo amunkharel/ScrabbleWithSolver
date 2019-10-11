@@ -1,6 +1,7 @@
 package scrabble;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ComputerPlayer {
@@ -624,6 +625,8 @@ public class ComputerPlayer {
 
         if(isValidInAllDirection) {
             score.getScore(row, column, 'c', 'v',word);
+            updateTray(word);
+
         }
     }
 
@@ -762,6 +765,7 @@ public class ComputerPlayer {
         }
         if(isValidInAllDirection) {
             score.getScore(row, column, 'c', 'h', word );
+            updateTray(word);
         }
     }
 
@@ -908,5 +912,35 @@ public class ComputerPlayer {
             return true;
         }
         return  false;
+    }
+
+    public void updateTray(String word) {
+        int replaceNeeded = 0;
+        List<Integer> trayIndex = new ArrayList<Integer>();
+        for (int i = 0; i < tray.length(); i++) {
+            for (int j = 0; j < word.length(); j++) {
+                if(word.charAt(j) == tray.charAt(i)) {
+                    if(!trayIndex.contains(i)) {
+                        trayIndex.add(i);
+                    }
+                }
+            }
+        }
+        Collections.sort(trayIndex, Collections.reverseOrder());
+        for(int i = 0; i < trayIndex.size(); i++) {
+            tray = charRemoveAt(tray, trayIndex.get(i));
+        }
+
+        replaceNeeded = 7 - tray.length();
+
+        List<Tile> tiles = new ArrayList<Tile>();
+        tiles = bag.giveTilesToTray(replaceNeeded);
+        for (int i = 0; i < tiles.size(); i++ ) {
+            tray =  tray + tiles.get(i).getLetter();
+        }
+    }
+
+    public  String charRemoveAt(String str, int p) {
+        return str.substring(0, p) + str.substring(p + 1);
     }
 }
