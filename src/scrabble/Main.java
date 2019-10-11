@@ -174,6 +174,10 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        /*Console console = new Console();
+        console.setInputFileName("example_input.txt");
+        console.setDictionaryFileName("sowpods.txt");
+        console.startSolving(); */
         launch(args);
     }
 }

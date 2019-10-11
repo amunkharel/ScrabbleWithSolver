@@ -1,23 +1,57 @@
+/**
+ * Project 3 - CS351, Fall 2019, Computer Player who plays the game
+ * @version Date 2019-10-15
+ * @author Amun Kharel
+ *
+ *
+ */
 package scrabble;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ComputerPlayer {
 
+    /** Number of Alphabets in the English letters*/
     private int numberOfAlphabets;
+
+    /** Tray of the board*/
     private String tray;
+
+    /** Duplicate tray of the board*/
     private String duplicateTray;
+
+    /** Board Object of the game*/
     private Board board ;
+
+    /** 2d board array*/
     private char [][] boardArray;
+
+    /** Dictionary used to make valid words*/
     private Dictionary dictionary;
+
+    /** Bag of the game*/
     private Bag bag;
+
+    /** List of valid cordinates where moves can be played*/
     private List<Cordinate> validCordinates;
+
+    /** All the permutations of letters in the tray*/
     private List<String> letterPermutations = new ArrayList<>();
+
+    /** Score object to get score*/
     private Score score;
 
-    public ComputerPlayer(Board board, Dictionary dictionary, Bag bag, Score score) {
+    /**
+     * Constructor for Computer Player
+     *
+     * @param Board board, Board where game is played
+     * @param Dictionary dictionary, dictionary used in the game
+     * @param Bag bag, Bag of Tiles
+     * @param Score score, Score tracker for the game
+     */
+    public ComputerPlayer(Board board, Dictionary dictionary, Bag bag,
+                          Score score) {
 
         validCordinates  = new ArrayList<Cordinate>();
         this.board = board;
@@ -28,9 +62,18 @@ public class ComputerPlayer {
         this.score = score;
     }
 
+    /**
+     * Sets tray for the computer
+     *
+     * @param String tray, Sets tray for the computer
+     */
     public void setTray(String tray) {
         this.tray = tray;
     }
+
+    /**
+     * Asks for tiles from the bag
+     */
 
     public void setTrayFromBag() {
         tray = "";
@@ -44,6 +87,12 @@ public class ComputerPlayer {
     }
 
 
+    /**
+     * Starts the AI of the game
+     * Clears the previous created letter permutations first
+     * get new valid cordinates where moves can be made
+     * make combinations and permutations
+     */
     public void startAI() {
         letterPermutations.clear();
         validCordinates = board.getValidCordinates();
@@ -53,6 +102,10 @@ public class ComputerPlayer {
         }
     }
 
+    /**
+     * Makes combinations for letters in the tray
+     * reference- https://www.geeksforgeeks.org/
+     */
     public void makeCombinations() {
         List<String> letterMix = new ArrayList<>();
 
@@ -72,12 +125,23 @@ public class ComputerPlayer {
         }
     }
 
-    public void makeCombination(char[] arr, int a, int b, List<String> letterCombinations){
+    /**
+     * Make combination for each combination in the letter
+     * reference - https://www.geeksforgeeks.org/
+     */
+    public void makeCombination(char[] arr, int a, int b,
+                                List<String> letterCombinations){
         char data[] = new char[b];
         combinations(arr, data, 0, a-1, 0, b, letterCombinations);
     }
 
-    public void combinations(char[] arr, char[] data, int start, int end, int index, int r, List<String> letterCombinations){
+    /**
+     * Make combinations for each combination in the letter
+     * reference - https://www.geeksforgeeks.org/
+     */
+    public void combinations(char[] arr, char[] data,
+                             int start, int end, int index,
+                             int r, List<String> letterCombinations){
         if (index == r)
         {
             String startComb = "";
@@ -96,7 +160,12 @@ public class ComputerPlayer {
         }
     }
 
-    public void makePermutation(String str, String finalComb, List<String>letterPermuts){
+    /**
+     * Make permutations for each combination in the letter
+     * reference - https://www.geeksforgeeks.org/
+     */
+    public void makePermutation(String str, String finalComb,
+                                List<String>letterPermuts){
         if (str.length() == 0) {
 
             makeIntialMoves(finalComb);
@@ -113,6 +182,13 @@ public class ComputerPlayer {
         }
     }
 
+    /**
+     * Checks where a move of a permutation of word can
+     * be made in the board (left, right, top, bottom)
+     * If our word can fit in the gap, it allows the word to go through
+     * that part of the board
+     * @param String word, Permutation word of the tray
+     */
     public void makeIntialMoves(String word) {
         int maxLeftIndex = 0;
         int maxRightIndex = 0;
@@ -138,7 +214,7 @@ public class ComputerPlayer {
                         }
                     }
 
-
+                    //if valid makes leftMove
                     if(word.length() <= maxLeftIndex) {
                         maxLeftIndex = 0;
                         makeleftMove(word, x, y);
@@ -156,6 +232,7 @@ public class ComputerPlayer {
                             break;
                         }
                     }
+                    //if valid makes Right Move
                     if(word.length() <= maxRightIndex) {
                         maxRightIndex = 0;
                         makeRightMove(word, x, y);
@@ -174,6 +251,7 @@ public class ComputerPlayer {
                         }
                     }
 
+                    //if valid makes Top Move
                     if(word.length() <= maxTopIndex ) {
                         maxTopIndex  = 0;
                         makeTopMove(word, x, y);
@@ -191,6 +269,8 @@ public class ComputerPlayer {
                             break;
                         }
                     }
+
+                    //if valid makes Bottom Move
                     if(word.length() <= maxBottomIndex) {
                         maxBottomIndex = 0;
                         makeBottomMove(word, x, y);
@@ -204,9 +284,19 @@ public class ComputerPlayer {
         }
     }
 
+    /**
+     * Starting makes Bottom moves and checks if move made in the bottom
+     * is valid and then checks if bottom move is valid
+     * in all direction or not
+     *
+     * @param String word, word made for bottom
+     * @param int row, starting row
+     * @param int column, starting column
+     */
     public void makeBottomMove(String word, int row, int column) {
         boolean [] validWordsOneWildCard = new boolean[numberOfAlphabets];
-        boolean [][] validWordsTwoWildCard = new boolean[numberOfAlphabets][numberOfAlphabets];
+        boolean [][] validWordsTwoWildCard =
+                new boolean[numberOfAlphabets][numberOfAlphabets];
 
         int [] wildcardIndex = new int[2];
         int numberOfWildCard = 0;
@@ -260,14 +350,20 @@ public class ComputerPlayer {
             }
         }
 
+        //above makes complete word to check it in the dictionary
+        //if valid word with/without wildcard, checks if it is valid
+        //in all direction using another function
+
         if(numberOfWildCard == 0) {
             if(dictionary.isValidMove(completeWord)) {
-                checkForValidInAllDirectionTopDown(wordStartIndex, column, word);
+                checkForValidInAllDirectionTopDown(wordStartIndex,
+                        column, word);
             }
         }
 
         else if(numberOfWildCard == 1) {
-            validWordsOneWildCard = dictionary.validWordsForOneWildCard(completeWord);
+            validWordsOneWildCard =
+                    dictionary.validWordsForOneWildCard(completeWord);
 
             for (int k = 0; k < numberOfAlphabets; k ++) {
                 if(validWordsOneWildCard[k]) {
@@ -278,13 +374,15 @@ public class ComputerPlayer {
                     newWord = word.substring(0, wildcardIndex[0]) + character
                             + word.substring(wildcardIndex[0] + 1);
 
-                    checkForValidInAllDirectionTopDown(wordStartIndex, column, newWord);
+                    checkForValidInAllDirectionTopDown(wordStartIndex,
+                            column, newWord);
                 }
             }
         }
 
         else if(numberOfWildCard == 2) {
-            validWordsTwoWildCard = dictionary.validWordsForTwoWildCard(completeWord);
+            validWordsTwoWildCard =
+                    dictionary.validWordsForTwoWildCard(completeWord);
             for(int k = 0; k < numberOfAlphabets; k++) {
                 for(int l = 0; l < numberOfAlphabets; l++) {
                     if(validWordsTwoWildCard[k][l]) {
@@ -298,7 +396,8 @@ public class ComputerPlayer {
                                 word.substring(wildcardIndex[0] + 1, wildcardIndex[1])
                                 + second_char + word.substring(wildcardIndex[1] + 1);
 
-                        checkForValidInAllDirectionTopDown(wordStartIndex, column, newWord);
+                        checkForValidInAllDirectionTopDown(wordStartIndex,
+                                column, newWord);
                     }
                 }
             }
@@ -306,9 +405,21 @@ public class ComputerPlayer {
 
     }
 
+    /**
+     * Starting makes Top moves and checks if move made in the top
+     * is valid and then checks if top move is valid
+     * in all direction or not
+     * Same logic as bottom move
+     *
+     * @param String word, word made for top
+     * @param int row, starting row
+     * @param int column, starting column
+     */
     public void makeTopMove(String word, int row, int column) {
-        boolean [] validWordsOneWildCard = new boolean[numberOfAlphabets];
-        boolean [][] validWordsTwoWildCard = new boolean[numberOfAlphabets][numberOfAlphabets];
+        boolean [] validWordsOneWildCard =
+                new boolean[numberOfAlphabets];
+        boolean [][] validWordsTwoWildCard =
+                new boolean[numberOfAlphabets][numberOfAlphabets];
 
         int [] wildcardIndex = new int[2];
         int numberOfWildCard = 0;
@@ -407,6 +518,16 @@ public class ComputerPlayer {
 
     }
 
+    /**
+     * Starting makes right moves and checks if move made in the right
+     * is valid and then checks if right move is valid
+     * in all direction or not
+     * Same logic as bottom move
+     *
+     * @param String word, word made for right
+     * @param int row, starting row
+     * @param int column, starting column
+     */
     public void makeRightMove(String word, int row, int column) {
         boolean [] validWordsOneWildCard = new boolean[numberOfAlphabets];
         boolean [][] validWordsTwoWildCard = new boolean[numberOfAlphabets][numberOfAlphabets];
@@ -510,6 +631,16 @@ public class ComputerPlayer {
 
     }
 
+    /**
+     * Starting makes left moves and checks if move made in the left
+     * is valid and then checks if left move is valid
+     * in all direction or not
+     * Same logic as bottom move
+     *
+     * @param String word, word made for left
+     * @param int row, starting row
+     * @param int column, starting column
+     */
     public void makeleftMove(String word, int row, int column) {
         boolean [] validWordsOneWildCard  = new boolean[numberOfAlphabets];
         boolean [][] validWordsTwoWildCard = new boolean[numberOfAlphabets][numberOfAlphabets];
@@ -608,7 +739,18 @@ public class ComputerPlayer {
 
     }
 
-    public void checkForValidInAllDirectionTopDown(int row, int column, String word) {
+    /**
+     * Checks if a left/right word is valid in top and down or not
+     * It passes each character from string to check if it is valid
+     * in all direction or not
+     * checks if valid in all direction or not. If yes, checks the score
+     *
+     * @param String word, word made for right/left
+     * @param int row, starting row
+     * @param int column, starting column
+     */
+    public void checkForValidInAllDirectionTopDown(int row,
+                                                   int column, String word) {
         int wordLength = word.length();
         int ro = row;
 
@@ -630,6 +772,14 @@ public class ComputerPlayer {
         }
     }
 
+    /**
+     * Checks if a character of top/bottom move is valid
+     * on left and right
+     *
+     * @param char letter, letter being checked
+     * @param int row, row of letter
+     * @param int column, column of letter
+     */
     public boolean validMoveLeftRight(char character, int row, int column) {
         int startIndex = 0;
         int stopIndex = 0;
@@ -751,6 +901,15 @@ public class ComputerPlayer {
         return false;
     }
 
+    /**
+     * Checks if word made left and right is valid or not
+     * in all direction using other function
+     * If is valid in all direction, checks the score
+     *
+     * @param String word, word made for right
+     * @param int row, starting row
+     * @param int column, starting column
+     */
     public void checkForValidInAllDirection(int row, int column, String word) {
         int wordLength = word.length();
         int col = column;
@@ -767,6 +926,16 @@ public class ComputerPlayer {
             score.getScore(row, column, 'c', 'h', word );
         }
     }
+
+
+    /**
+     * Checks if a character of left/right move is valid
+     * on top and bottom
+     *
+     * @param char letter, letter being checked
+     * @param int row, row of letter
+     * @param int column, column of letter
+     */
 
     public boolean validMoveTopDown(char character, int row, int column) {
 
@@ -884,6 +1053,10 @@ public class ComputerPlayer {
         return false;
     }
 
+    /**
+     * Places the best move got from all game to the board
+     * Restarts the currentScore
+     */
     public void placeBestMove() {
         char direction = score.getCompBestMoveDirection();
         int row = score.getComputerBestMoveRow();
