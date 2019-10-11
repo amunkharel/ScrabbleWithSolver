@@ -1,14 +1,27 @@
+/**
+ * Project 3 - CS351, Fall 2019, Bag where the tiles are placed in the game
+ * @version Date 2019-10-15
+ * @author Amun Kharel
+ *
+ *
+ */
+
 package scrabble;
-
-import javafx.scene.Scene;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 public class Bag {
+
+    /** List of Tiles in the bag*/
     private List<Tile> tiles;
 
+    /**
+     * Constructor for Bag that adds tiles into the bag
+     * of different scores and frequency
+     *
+     */
     public Bag() {
 
         tiles  = new ArrayList<Tile>();
@@ -174,9 +187,18 @@ public class Bag {
         }
     }
 
+    /**
+     * Gets the score given a letter
+     *
+     * @param char letter, letter in the tile
+     * @return  int getScore, gets the score of a given tile
+     */
+
     public int getScore(char letter) {
-        if(letter == 'a' || letter == 'e' || letter == 'i' || letter == 'l' || letter == 'n' || letter == 'o' ||
-                letter == 'r' || letter == 's' || letter == 't' || letter == 'u'){
+        if(letter == 'a' || letter == 'e' || letter == 'i' ||
+                letter == 'l' || letter == 'n' || letter == 'o' ||
+                letter == 'r' || letter == 's' || letter == 't' ||
+                letter == 'u'){
             return 1;
         }
         if(letter == 'd' || letter == 'g'){
@@ -185,7 +207,8 @@ public class Bag {
         if(letter == 'b' || letter == 'c' || letter == 'm' || letter == 'p'){
             return 3;
         }
-        if(letter == 'f' || letter == 'h' || letter == 'v' || letter == 'w' || letter == 'y'){
+        if(letter == 'f' || letter == 'h' || letter == 'v' ||
+                letter == 'w' || letter == 'y'){
             return 4;
         }
         if(letter == 'k'){
@@ -200,14 +223,25 @@ public class Bag {
         return 0;
     }
 
+    /**
+     * Prints the tiles in the bag. Used for testing purpose
+     *
+     */
     public void printBag() {
         for(int i = 0; i < tiles.size(); i++) {
-            System.out.println(tiles.get(i).getLetter() + " " + tiles.get(i).getScore());
+            System.out.println(tiles.get(i).getLetter()
+                    + " " + tiles.get(i).getScore());
         }
 
         System.out.println(tiles.size());
     }
 
+    /**
+     * Gives tiles to the players
+     *
+     * @param int  number, Number of tiles asked by the players
+     * @return List<Tile> giveTilesToTray, gives list of tiles to the players
+     */
     public List<Tile> giveTilesToTray(int number) {
         List<Tile> tiles = new ArrayList<Tile>();
 
@@ -223,11 +257,20 @@ public class Bag {
 
         return tiles;
     }
-
+    /**
+     * Puts tile back in the bag if a player wants to swap his tiles
+     *
+     * @param char letter,letter user wants to put back in the bag
+     */
     public void putBackInBag(char letter) {
         tiles.add(new Tile(letter, this.getScore(letter)));
     }
 
+    /**
+     * Returns number of tiles remaining in the bag
+     *
+     * @param int getNumberOfTiles, Number of tiles in the bag
+     */
     public int getNumberOfTiles() {
         return tiles.size();
     }
