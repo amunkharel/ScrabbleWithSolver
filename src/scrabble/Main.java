@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class Main extends Application {
 
+
     private int sizeOfBoard = 15;
     private Bag bag = new Bag();
     private Dictionary dictionary = new Dictionary("sowpods.txt");
@@ -175,8 +176,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         /*Console console = new Console();
-        console.setInputFileName("example_input.txt");
-        console.setDictionaryFileName("sowpods.txt");
+        console.setDictionaryFileName(args[0]);
         console.startSolving(); */
         launch(args);
     }

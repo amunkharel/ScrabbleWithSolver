@@ -75,6 +75,9 @@ public class Board {
      * Prints the board for testing purpose
      */
     public void printBoard() {
+
+        System.out.println("");
+        System.out.println("");
         for(int i = 0; i < size; i++) {
             for(int j = 0; j < size; j++) {
                 System.out.print(board[i][j] + " ");

@@ -1,22 +1,15 @@
 package scrabble;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class Console {
     private String dictionaryFileName;
-
-    private String inputFileName;
 
 
     public void setDictionaryFileName(String dictionaryFileName) {
         this.dictionaryFileName = dictionaryFileName;
     }
 
-    public void setInputFileName(String inputFileName) {
-        this.inputFileName = inputFileName;
-    }
 
     public void startSolving() {
         int xCount = 0;
@@ -24,15 +17,11 @@ public class Console {
         int boardSize = 0;
 
 
-        String filename = inputFileName;
-
-        String pathname = "resources/" + filename;
-
         BufferedReader reader;
 
         try {
 
-            reader = new BufferedReader(new FileReader(pathname));
+            reader = new BufferedReader(new InputStreamReader(System.in));
             String line = reader.readLine();
             Bag bag = new Bag();
             Dictionary dictionary = new Dictionary(dictionaryFileName);
