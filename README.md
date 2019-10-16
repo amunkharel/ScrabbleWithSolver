@@ -1,7 +1,7 @@
 # Scrabble Game
 
 ## Important Information
-Brooke gave me extra few days extention to finish up my documentation because of my twisted ankle
+Brooke gave me extra few days extension to finish up my documentation because of my twisted ankle
 
 ## Game Play
 
@@ -87,3 +87,28 @@ want to ruin word solver console after it was created by change the score class.
 12) Tile- Tile consists of letter and its score<br>
 13) Trie- Trie Data Structure stores the words of the dictionary, which can accessed later 
 in tremendous speed. <br>
+
+### Algorithm and Data Structure
+
+1) Trie was the major data structure in the game to check to see if a word is valid or not.
+For wild card, it also generated list of valid words. <br>
+2)  I read a research paper on world's fastest scrabble that
+will be referenced below to get access to the algorithm. <br>
+
+## Known Bugs and Feature Requests
+Before writing this section, I would like to inform the reader that the game has not been
+tested extensively. I tried my best and probably tested it more times than I can remember but
+it might still not be enough due to the complexity of the game logic. 
+1) Like I said before, the console word solver does not exit cleanly because I have never done standard 
+input prior to this project and I had to change it from file reader to input reader in the 
+last moment. Also, '@', '!' are characters used as word multipliers instead of string. <br>
+2) My console solver solved all the 4 boards but only 3/4 boards
+ gave the correct word output from the 'example_input.txt' file because I was not
+able to code up entire algorithm from the research paper. I could not make letter permutations for
+words between a letter to solve the board due to lack of time. If I am given an extra week, I 
+can make this game that solves all the boards perfectly. However, it is accurate most of the time <br>
+3) The game runs flawlessly in the GUI but the game end is created without following criteria
+of the 'Game Rules'. The game ends simply when bag has less than 7 tiles and declares the winner.
+This was also done due to lack of enough time. All the other requirement given by Brooke has
+been followed. 
+
