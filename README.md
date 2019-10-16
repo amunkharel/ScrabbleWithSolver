@@ -51,7 +51,7 @@ has started. After swapping has starting press on tile/tiles you would like to s
 Press swap again and those tiles will be swapped. Swapping might seem weird as it appends the 
 swapped element to the end of the tray but it works perfectly. <br>
 7) After swapping, computer will make its move. <br>
-8) If there is a wildcard, you can get the desired letter by clicking on it. On you click
+8) If there is a wildcard, you can get the desired letter by clicking on it. On clicking
 the empty wildcard, it will change to 'A'. Second click it will change to 'B' and so on. It stops at 'Z'. 
 If you would like to revert to empty tile, please press the undo button. 
 You need to change wildcard to desired letter before you start making your move. Otherwise, it 
@@ -59,4 +59,31 @@ won't work.  <br>
 9) You play with each and score is shown in the scorecard. The game continues until it is over. <br>
 
 
+## Description of Program Internals
 
+### Description of Classes
+
+1) Bag- Bag class contains the letter tiles. It gives tiles to the player and keep tracks
+of what is left in the bag. It also gives out score of each letter to the player <br>
+2) Board- Board is where the move is made. Board is where you store your moves. It also gives where
+the valid cordinates are to store your move <br>
+3) ComputerPlayer- ComputerPlayer is where computer looks at the board and generate the best
+move. It also sets the tray after each move. <br>
+4) Console - Console is used to solve the console game. Dictionary should be passed as a text
+file for console solver to work. Standard input of board is sent to solve the boards <br>
+5) Cordinate - Cordinate consists of row and column and it stores cordinates of board <br>
+6) Dictionary- Dictionary class stores from the input text file and stores the word in Trie
+data structure. Later, it checks if a word is valid or not. For wildcard/wildcards, it will generate
+list of valid words. <br>
+7) EventHandler- It encapsulates the click of a mouse and makes the clicks on button, trays and
+board possible. It will use those clicks to change the backend of the code <br>
+8) GUI - GUI is where we animate the canvas. It refreshes all the time to give us realtime
+backend view of the game <br>
+9) Main- Main Class is where game is initialized <br>
+10) Score- Score is where score of computer is tracked.  <br>
+11) HumanPlayer- HumanPlayer keep track of its tray. Checks if a placement is valid or not. 
+It also keeps track of the human score. It should kept score in score class but I did not 
+want to ruin word solver console after it was created by change the score class. <br>
+12) Tile- Tile consists of letter and its score<br>
+13) Trie- Trie Data Structure stores the words of the dictionary, which can accessed later 
+in tremendous speed. <br>
