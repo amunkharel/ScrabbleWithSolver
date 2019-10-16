@@ -11,11 +11,11 @@ There are two versions of the game. The first version is the console game which 
 another is the GUI version that plays the game from start to finish. <br>
 To start the console world solver. <br>
 1) Go to the game directory where scrabble1.0_akharel.jar 
-is placed.
+is placed. <br>
 2) Then type "java -jar scrabble1.0_akharel.jar sowpods.txt" or you can use any other dictionary
-instead of sowpods.txt. Any files should be placed in "resource" folder
-3) Then in the terminal copy and paste the input board you'd like to solve
-4) If you are solving one board, copy and paste the board and place enter
+instead of sowpods.txt. Any files should be placed in "resource" folder <br>
+3) Then in the terminal copy and paste the input board you'd like to solve <br>
+4) If you are solving one board, copy and paste the board and place enter <br>
 5) If you are solving multiple board, copy and paste and wait for the board to be solved
 accurately
 <br>
