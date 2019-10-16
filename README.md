@@ -99,7 +99,7 @@ will be referenced below to get access to the algorithm. <br>
 Before writing this section, I would like to inform the reader that the game has not been
 tested extensively. I tried my best and probably tested it more times than I can remember but
 it might still not be enough due to the complexity of the game logic. 
-1) Like I said before, the console word solver does not exit cleanly because I have never done standard 
+1) Like I said before, the console word solver does not exit cleanly because I had never done standard 
 input prior to this project and I had to change it from file reader to input reader in the 
 last moment. Also, '@', '!' are characters used as word multipliers instead of string. <br>
 2) My console solver solved all the 4 boards but only 3/4 boards
@@ -112,3 +112,15 @@ of the 'Game Rules'. The game ends simply when bag has less than 7 tiles and dec
 This was also done due to lack of enough time. All the other requirement given by Brooke has
 been followed. 
 
+## References
+1) To understand Trie Data Structure- https://www.geeksforgeeks.org/trie-insert-and-search/ <br>
+2) To generate subset of words - https://www.geeksforgeeks.org/recursive-program-to-generate-power-set/  <br>
+3) Worked with Shreeman Gautam together to solve small utilities and problems during the game
+making process. His contribution is that he helped me make Standard Input and Jar file <br>
+4) Google searches and stack-overflow was used extensively to debug the project. 
+
+
+
+## Author - Amun Kharel
+
+## Date - 2019/10/16
