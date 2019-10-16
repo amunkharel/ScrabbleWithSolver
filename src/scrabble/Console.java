@@ -1,16 +1,34 @@
+/**
+ * Project 3 - CS351, Fall 2019, Console to solve the standard input
+ * @version Date 2019-10-15
+ * @author Amun Kharel
+ *
+ *
+ */
+
 package scrabble;
 
 import java.io.*;
 
 public class Console {
+
+    /** Name of the dictionary file in the resource folder*/
     private String dictionaryFileName;
 
 
+    /**
+     * Sets the dictionary File Name
+     *
+     * @param String, dictionaryFileName, name of dictionary
+     */
     public void setDictionaryFileName(String dictionaryFileName) {
         this.dictionaryFileName = dictionaryFileName;
     }
 
 
+    /**
+     * Starts solving the console board using all the other classes
+     */
     public void startSolving() {
         int xCount = 0;
         int yCount = 0;
@@ -31,6 +49,10 @@ public class Console {
             ComputerPlayer p2 = new ComputerPlayer(board, dictionary, bag, score);
             while(line != null) {
                 while (line.length() != 7) {
+
+                    //until it finds another tray which is of length 7
+
+                    //if it finds the size of the board
                     if(line.length() == 1 || line.length() == 2) {
                         boardSize = Integer.valueOf(line);
                         board = new Board(boardSize);
@@ -40,36 +62,47 @@ public class Console {
 
                         int i = 0;
                         while (i < length) {
+
+                            //insert the string inside my board object's array
                             if(line.substring(i, i+2).equals("3.")) {
-                                board.insertScoreAndIntialLetters(xCount, yCount, '@');
+                                board.insertScoreAndIntialLetters(xCount,
+                                        yCount, '@');
                             }
 
                             else if(line.substring(i, i+2).equals("4.")) {
-                                board.insertScoreAndIntialLetters(xCount, yCount, '$');
+                                board.insertScoreAndIntialLetters(
+                                        xCount, yCount, '$');
                             }
 
                             else if(line.substring(i, i+2).equals("2.")) {
-                                board.insertScoreAndIntialLetters(xCount, yCount, '!');
+                                board.insertScoreAndIntialLetters(
+                                        xCount, yCount, '!');
                             }
 
                             else if(line.substring(i, i+2).equals(".2")) {
-                                board.insertScoreAndIntialLetters(xCount, yCount, '2');
+                                board.insertScoreAndIntialLetters(
+                                        xCount, yCount, '2');
                             }
 
                             else if(line.substring(i, i+2).equals(".3")) {
-                                board.insertScoreAndIntialLetters(xCount, yCount, '3');
+                                board.insertScoreAndIntialLetters(
+                                        xCount, yCount, '3');
                             }
 
                             else if(line.substring(i, i+2).equals(".4")) {
-                                board.insertScoreAndIntialLetters(xCount, yCount, '4');
+                                board.insertScoreAndIntialLetters(
+                                        xCount, yCount, '4');
                             }
 
                             else if(line.substring(i, i+2).equals("..")) {
-                                board.insertScoreAndIntialLetters(xCount, yCount, '-');
+                                board.insertScoreAndIntialLetters(
+                                        xCount, yCount, '-');
                             }
 
                             else {
-                                board.insertScoreAndIntialLetters(xCount, yCount, line.substring(i, i+2).charAt(1));
+                                board.insertScoreAndIntialLetters(
+                                        xCount, yCount,
+                                        line.substring(i, i+2).charAt(1));
                             }
                             yCount++;
                             i = i + 3;
@@ -81,6 +114,7 @@ public class Console {
 
                     line = reader.readLine();
 
+                    //solves the game
                     if(line.length() == 7) {
                         score = new Score(bag, board);
                         p2 = new ComputerPlayer(board, dictionary, bag, score);
@@ -93,11 +127,17 @@ public class Console {
 
                         p2.startAI();
 
-                        System.out.println("Direction v for vertical, h for horizontal - " + score.getCompBestMoveDirection());
-                        System.out.println("Starting Row " + score.getComputerBestMoveRow());
-                        System.out.println("Starting Column " + score.getComputerBestMoveColumn());
-                        System.out.println("Word " + score.getCompBestCurrentWord());
-                        System.out.println("Score " + score.getCompCurrentBestScore());
+                        System.out.println("Direction v for vertical," +
+                                " h for horizontal - " +
+                                score.getCompBestMoveDirection());
+                        System.out.println("Starting Row " +
+                                score.getComputerBestMoveRow());
+                        System.out.println("Starting Column " +
+                                score.getComputerBestMoveColumn());
+                        System.out.println("Word " +
+                                score.getCompBestCurrentWord());
+                        System.out.println("Score " +
+                                score.getCompCurrentBestScore());
                         System.out.println("");
 
                         p2.placeBestMove();
