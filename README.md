@@ -118,7 +118,7 @@ been followed.
 3) Worked with Shreeman Gautam together to solve small utilities and problems during the game
 making process. His contribution is that he helped me make Standard Input and Jar file <br>
 4) Google searches and stack-overflow was used extensively to debug the project. 
-
+5) https://www.geeksforgeeks.org/different-ways-reading-text-file-java/ - for reading files
 
 
 ## Author - Amun Kharel
