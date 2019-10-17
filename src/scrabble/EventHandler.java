@@ -1,25 +1,53 @@
-package scrabble;
+/**
+ * Project 3 - CS351, Fall 2019, Class that encapsulates mouse click
+ * @version Date 2019-10-15
+ * @author Amun Kharel
+ *
+ *
+ */
 
+package scrabble;
 public class EventHandler {
 
+    /** Bag from where tile is drawn */
     private Bag bag;
 
+    /**   Bag from where tile is drawn*/
     private Dictionary dictionary;
 
+    /** Board where moves are made */
     private  Board board;
 
+    /**  Score of the players*/
     private  Score score;
 
+    /**  Human Player*/
     private  HumanPlayer p1;
 
+    /**  Computer Player*/
     private ComputerPlayer p2;
 
+    /** Clicked X Cordinate */
     private double xCor;
 
+    /** Clicked Y Cordinate */
     private double yCor;
 
+    /**  Checks if game is over or not*/
     private boolean gameOver;
 
+    /**
+     * Constructor for event handler
+     *
+     * @param Bag bag,  Bag from where tile is drawn
+     * @param Dictionary dictionary,  Bag from where tile is drawn
+     * @param Board board, Board where moves are made
+     * @param Score score,Score of the players
+     * @param HumanPlayer p1,Human Player
+     * @param ComputerPlayer p2, Computer Player
+     * @param double xCor, Clicked X Cordinate
+     * @param double yCor, Clicked Y Cordinate
+     */
     public EventHandler(Bag bag, Dictionary dictionary, Board board,
                         Score score, HumanPlayer p1, ComputerPlayer p2,
                         double xCor, double yCor) {
@@ -35,8 +63,12 @@ public class EventHandler {
 
     }
 
+    /**
+     * Handle each clicks and takes it to appropriate functions
+     */
     public void handleEvent() {
 
+        //game over condition
         if(bag.getNumberOfTiles() < 7) {
             gameOver = true;
         }
@@ -69,7 +101,12 @@ public class EventHandler {
 
     }
 
-
+    /**
+     * When board is clicked puts it into the duplicate board
+     *
+     * @param int row, row of the board
+     * @param int column, column of the board
+     */
     public void clickTile(int row, int column) {
         if(p1.isTraySelected()) {
             if(board.isFree(row, column)) {
@@ -81,6 +118,9 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Undoes if tray is put into the board
+     */
     public void undoButton() {
         this.undoBoard();
         p1.setTraySelected(false);
@@ -88,6 +128,10 @@ public class EventHandler {
 
     }
 
+    /**
+     * When user clicks the play button, checks for valid placement
+     * , valid word and allows user to play
+     */
     public void playButton() {
 
         if(p1.checkForValidPlacement() == 'n') {
@@ -131,6 +175,9 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Function to swap tiles from your tray
+     */
     public void swapButton() {
         if(board.isSwapInitialize()) {
             board.setSwapInitialize(false);
@@ -149,6 +196,9 @@ public class EventHandler {
 
     }
 
+    /**
+     * Deals with your tray when it is clicked
+     */
     public void clickTray(int trayNumber) {
         if(board.isSwapInitialize()) {
             p1.setSwapSelectedTrayIndex(trayNumber);
@@ -172,12 +222,18 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Undoes the board when undo button is clicked
+     */
     public void undoBoard() {
         board.revertDuplicateBoard();
         p1.revertDuplicateTray();
         p1.setPlacedCordinateToNull();
     }
 
+    /**
+     * When wildcard is clicked in the tray, changes it to a letter
+     */
     public void changeWildCardToWords(int trayNumber) {
         String newWord = "";
 
@@ -199,6 +255,11 @@ public class EventHandler {
         }
     }
 
+    /**
+     * Returns true if game is over and vice versa
+     *
+     * @return boolean, return true if game is over
+     */
     public boolean isGameOver() {
         return gameOver;
     }
