@@ -262,6 +262,14 @@ public class Board {
         return  duplicateboard;
     }
 
+    /**
+     * Checks if the spot in the board is free to add letters or not
+     *
+     * @param int x, row of the board
+     * @param int y, column of the board
+     * @return boolean, returns true if given spot is free and vice versa
+     */
+
     public boolean isFree(int x, int y) {
         if(duplicateboard[x][y] == '-' || duplicateboard[x][y] == '1' ||
                 duplicateboard[x][y] == '2' || duplicateboard[x][y] == '3'

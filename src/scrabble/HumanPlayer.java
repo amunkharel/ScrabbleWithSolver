@@ -1,31 +1,83 @@
-package scrabble;
+/**
+ * Project 3 - CS351, Fall 2019, Class for human player
+ * @version Date 2019-10-15
+ * @author Amun Kharel
+ *
+ *
+ */
 
+package scrabble;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class HumanPlayer {
 
+    /** Number of alphabets in english */
     private int numberOfAlphabets;
+
+    /**  Tray of human player*/
     private String tray;
+
+    /** Duplicate Tray for the frontend */
     private String duplicateTray;
+
+    /**  Board object to play the game*/
     private Board board ;
+
+    /**  Representation of 2d board*/
     private char [][] boardArray;
+
+    /**  Dictionary to check and see words*/
     private Dictionary dictionary;
+
+    /** Bag from where tiles are drawn */
     private Bag bag;
+
+    /**  List of valid cordinate where move is possible*/
     private List<Cordinate> validCordinates;
+
+    /**  Letter Permutations*/
     private List<String> letterPermutations = new ArrayList<>();
+
+    /**  Score tracker*/
     private Score score;
+
+    /**  Checks if human tray is clicked or not*/
     private boolean traySelected;
+
+    /**  Checks and see which tile is selected*/
     private int selectedTray;
+
+    /**  2d Representation of duplicate board*/
     private char [][] duplicateBoard;
+
+    /**  Tiles Clicked when swapping is initialized*/
     private List<Integer> swapSelectedTrayIndex = new ArrayList<>();
+
+    /**  Cordinates where tiles are placed*/
     private List<Cordinate> placedCordinate;
+
+    /** Checks if we already had a first move or not */
     private boolean firstMove;
+
+    /**  Current Score of human player*/
     private int currentScore;
+
+    /** Total score of human player */
     private int totalScore;
 
-    public HumanPlayer(Board board, Dictionary dictionary, Bag bag, Score score) {
+
+    /**
+     * Constructor for human player
+     *
+     * @param Bag bag,  Bag from where tile is drawn
+     * @param Board board, Board where moves are made
+     * @param Score score,Score of the players
+     * @param Dictionary dictionary, dictionary for the game
+     */
+    public HumanPlayer(Board board, Dictionary dictionary,
+                       Bag bag, Score score) {
         validCordinates = new ArrayList<Cordinate>();
         placedCordinate = new ArrayList<Cordinate>();
         this.board = board;
@@ -41,22 +93,46 @@ public class HumanPlayer {
         totalScore = 0;
     }
 
+    /**
+     * Sets if a tile in tray selected
+     *
+     * @param boolean trayselected,  true if tray is clicked in GUI
+     */
     public void setTraySelected(boolean traySelected) {
         this.traySelected = traySelected;
     }
 
+    /**
+     * Returns if tray is selected or not
+     *
+     * @return  boolean, true if tray is clicked in GUI
+     */
     public boolean isTraySelected() {
         return traySelected;
     }
 
+    /**
+     * Sets Tile that is selected in GUI
+     *
+     * @param int selectedTray,  tile that is selected
+     */
     public void setSelectedTray(int selectedTray) {
         this.selectedTray = selectedTray;
     }
 
+    /**
+     * Returns selected tile number from the tile
+     *
+     * @return int, tile that is selected
+     */
     public int getSelectedTray() {
         return selectedTray;
     }
 
+    /**
+     * Sets all the tiles in the tray from bag
+     *
+     */
     public void setTrayFromBag() {
         tray = "";
         duplicateTray = "";
@@ -69,14 +145,31 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Gets string of duplicate Tray element
+     *
+     * @return String, duplicate tray of the game
+     */
     public String getDuplicateTray() {
         return  duplicateTray;
     }
 
+    /**
+     * Gets string of  Tray elements
+     *
+     * @return String,  tray of the game
+     */
     public String getTray() {
         return  tray;
     }
 
+    /**
+     * Puts tile to the board when user click to board
+     *
+     * @param int row, row of the board
+     * @param int column, column of the board
+     * @param int tileIndex, tileIndex in the tray
+     */
     public void putTileToBoard(int row, int column, int tileIndex) {
         duplicateBoard[row][column] = duplicateTray.charAt(tileIndex);
 
@@ -84,10 +177,21 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Removes character from a string at given index
+     *
+     * @param String str, string to remove char
+     * @param int p, index of string
+     * @return String, newly formed string
+     */
+
     public  String charRemoveAt(String str, int p) {
         return str.substring(0, p) + str.substring(p + 1);
     }
 
+    /**
+     * Reverts duplicate tray to original upon undo
+     */
     public void revertDuplicateTray() {
         duplicateTray = "";
         for(int i = 0; i < tray.length(); i++) {
@@ -95,20 +199,36 @@ public class HumanPlayer {
         }
     }
 
+    /**
+     * Sets tileIndex set for swapping
+     *
+     * @param int tileIndex, tileIndex set for swapping
+     */
     public void setSwapSelectedTrayIndex(int tileIndex) {
         if(!swapSelectedTrayIndex.contains(tileIndex)) {
             this.swapSelectedTrayIndex.add(tileIndex);
         }
     }
 
+    /**
+     * Returns tileIndexes for swapping
+     *
+     * @param List<Integer>, returns tileIndexes for swapping
+     */
     public List<Integer> getSwapSelectedTrayIndex() {
         return  this.swapSelectedTrayIndex;
     }
 
+    /**
+     * Clears the swapSelectedTray Index to Null
+     */
     public void setSwapSelectedTrayIndexNull() {
         this.swapSelectedTrayIndex.clear();
     }
 
+    /**
+     * Swaps the selected tiles with new Tiles from the bag
+     */
     public void swapSelectedTiles() {
         int numberFromBag = swapSelectedTrayIndex.size();
         for(int i = 0; i < swapSelectedTrayIndex.size(); i++) {
@@ -117,7 +237,8 @@ public class HumanPlayer {
 
         swapSelectedTrayIndex = sortDescending();
         for(int i = 0; i < swapSelectedTrayIndex.size(); i++) {
-            duplicateTray = charRemoveAt(duplicateTray, swapSelectedTrayIndex.get(i));
+            duplicateTray = charRemoveAt(duplicateTray,
+                    swapSelectedTrayIndex.get(i));
         }
 
         List<Tile> tiles = new ArrayList<Tile>();
@@ -135,32 +256,64 @@ public class HumanPlayer {
         }
     }
 
+    /**
+     * Swaps a list in descending order
+     *
+     * @return List<Integer>, sorted list of integers
+     */
     public List<Integer> sortDescending() {
         Collections.sort(swapSelectedTrayIndex, Collections.reverseOrder());
         return swapSelectedTrayIndex;
     }
 
+    /**
+     * Sets the duplicate tray
+     *
+     * @param String, duplicate tray of the game
+     */
     public void setDuplicateTray(String duplicateTray) {
         this.duplicateTray = duplicateTray;
     }
 
+    /**
+     * Sets cordinates once a tile is placed on the board
+     *
+     * @param Cordinate cordinate, cordinate where tile is placed
+     */
     public void setPlacedCordinate(Cordinate cordinate) {
         placedCordinate.add(cordinate);
     }
 
+
+    /**
+     * Clears placedCordinate variables to null
+     */
     public void setPlacedCordinateToNull() {
         placedCordinate.clear();
     }
 
+    /**
+     * Prints placed cordinates for testing purpose
+     */
     public void printPlacedCordinate() {
         for (int i = 0; i < placedCordinate.size(); i++) {
-            System.out.println(placedCordinate.get(i).getX() + " " + placedCordinate.get(i).getY());
+            System.out.println(placedCordinate.get(i).getX() + " " +
+                    placedCordinate.get(i).getY());
         }
     }
 
+    /**
+     * checks if a placement of tile/tiles is valid or not
+     * returns 'h' if valid horizontally
+     * returns 'v' if valid vertically
+     * else returns 'n' if not valid placement
+     *
+     * @return char, returns if placement is valid or not
+     */
     public char checkForValidPlacement() {
         validCordinates = board.getValidCordinates();
-        if(validCordinates.get(0).getX() == 7 && validCordinates.get(0).getY() == 7) {
+        if(validCordinates.get(0).getX() == 7 &&
+                validCordinates.get(0).getY() == 7) {
             firstMove = true;
         }
 
@@ -238,6 +391,12 @@ public class HumanPlayer {
         return 'n';
     }
 
+
+    /**
+     * Checks if our placement is made on atleast one valid cordinate or not
+     *
+     * @param boolean, true if placed on atleast one valid cordinate
+     */
     public boolean isPlacedOnValidCoordinate() {
 
 
@@ -246,8 +405,10 @@ public class HumanPlayer {
 
             for (int j = 0; j < placedCordinate.size(); j++) {
 
-                if(placedCordinate.get(j).getX() == validCordinates.get(i).getX() &&
-                        placedCordinate.get(j).getY() == validCordinates.get(i).getY()) {
+                if(placedCordinate.get(j).getX() ==
+                        validCordinates.get(i).getX() &&
+                        placedCordinate.get(j).getY()
+                                == validCordinates.get(i).getY()) {
                     return true;
                 }
             }
@@ -255,6 +416,13 @@ public class HumanPlayer {
 
         return false;
     }
+
+
+    /**
+     * checks if a placement is placed vertically, horizontally or none
+     *
+     * @return char, 'v' if vertical, 'h' if horizontal and 'n' if invalid
+     */
 
     public char isPlacedVerticallyOrHorizontally() {
         int startingRow = placedCordinate.get(0).getX();
@@ -290,6 +458,12 @@ public class HumanPlayer {
         return  'n';
     }
 
+    /**
+     * Checks if the valid is made in a valid manner
+     *
+     * @param char direction, direction where placement is made
+     * @return boolean, true if placement is valid
+     */
     public boolean isValidPlacement(char direction) {
         List<Integer> rowIndex = new ArrayList<>();
         List<Integer> columnIndex = new ArrayList<>();
@@ -306,7 +480,8 @@ public class HumanPlayer {
 
 
         if(direction == 'h') {
-            for (int i = columnIndex.get(0); i < columnIndex.get(columnIndex.size() - 1); i++) {
+            for (int i = columnIndex.get(0); i
+                    < columnIndex.get(columnIndex.size() - 1); i++) {
                 if(!columnIndex.contains(i)) {
                     if(board.isFreeRealBoard(startingRow, i)) {
                         return false;
@@ -316,7 +491,8 @@ public class HumanPlayer {
         }
 
         if(direction == 'v') {
-            for(int i = rowIndex.get(0); i < rowIndex.get(rowIndex.size() - 1); i++) {
+            for(int i = rowIndex.get(0); i <
+                    rowIndex.get(rowIndex.size() - 1); i++) {
                 if(!rowIndex.contains(i)) {
                     if(board.isFreeRealBoard(i, startingColumn)) {
                         return false;
@@ -327,6 +503,12 @@ public class HumanPlayer {
         return true;
     }
 
+    /**
+     * Checks if a word is valid in horizontal direction
+     *
+     * @return boolean, returns true if word is
+     *                 valid sideways and in all direction
+     */
     public boolean checkForValidWordInHorizontal() {
         if(horizontalValidMoveSideWays()) {
             if(horizontalMoveValidInTopDown()) {
@@ -344,6 +526,12 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Checks if a word is valid in vertical direction
+     *
+     * @return boolean, returns true if word is
+     *                 valid sideways and in all direction
+     */
     public boolean checkForValidWordInVertical() {
 
 
@@ -362,6 +550,12 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Checks if a word is valid in vertical direction sideways
+     *
+     * @return boolean, returns true if word is
+     *                 valid sideways
+     */
     public boolean verticalValidMoveSideways() {
 
         List<Integer> rowIndex = new ArrayList<>();
@@ -429,6 +623,12 @@ public class HumanPlayer {
         }
     }
 
+    /**
+     * Checks if a word is valid in vertical direction left and Right
+     *
+     * @return boolean, returns true if word is
+     *                 valid left and right for each character
+     */
     public boolean verticalMoveValidInLeftRight() {
 
         List<Integer> rowIndex = new ArrayList<>();
@@ -468,6 +668,15 @@ public class HumanPlayer {
         }
     }
 
+    /**
+     * Checks if each character in a vertical word is valid in all direction
+     *
+     * @param char character, character of a word
+     * @param int row, row where letter is
+     * @param int column, column where letter is
+     * @param boolean, returns true if word is
+     *                 valid sideways
+     */
     public boolean validMoveLeftRight(char character, int row, int column) {
         int startIndex = 0;
         int stopIndex = 0;
@@ -589,6 +798,12 @@ public class HumanPlayer {
         return false;
     }
 
+    /**
+     * Checks if a word is valid in horizonatal direction sideways
+     *
+     * @param boolean, returns true if word is
+     *                 valid sideways
+     */
     public boolean horizontalValidMoveSideWays() {
         List<Integer> rowIndex = new ArrayList<>();
         List<Integer> columnIndex = new ArrayList<>();
@@ -655,6 +870,12 @@ public class HumanPlayer {
         }
     }
 
+    /**
+     * Checks if a word is valid in vertical direction in all direction
+     *
+     * @param boolean, returns true if word is
+     *                 valid in all direction
+     */
     public boolean horizontalMoveValidInTopDown() {
         List<Integer> rowIndex = new ArrayList<>();
         List<Integer> columnIndex = new ArrayList<>();
@@ -694,6 +915,15 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Checks if each character in a horizontal word is valid in all direction
+     *
+     * @param char character, character of a word
+     * @param int row, row where letter is
+     * @param int column, column where letter is
+     * @param boolean, returns true if word is
+     *                 valid sideways
+     */
     public boolean validMoveTopDown(char character, int row, int column) {
 
         int startIndex = 0;
@@ -809,6 +1039,11 @@ public class HumanPlayer {
         return false;
     }
 
+    /**
+     * Updates score after a move is made
+     *
+     * @param char direction, direction of move
+     */
     public void updateScore(char direction) {
 
         if(placedCordinate.size() == 7) {
@@ -825,6 +1060,9 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Calculates score for word in vertical
+     */
     public  void calculateScoreForWordTopBottom() {
         int multiplier = 1;
         int wordScore = 0;
@@ -875,20 +1113,25 @@ public class HumanPlayer {
         for(int i = maxTopIndex; i <= maxBottomIndex; i++) {
             if(rowIndex.contains(i)) {
                 if(containsWordsMultiplier(i, startingColumn)) {
-                    multiplier = multiplier * multiplierScore(boardArray[i][startingColumn]);
+                    multiplier = multiplier *
+                            multiplierScore(boardArray[i][startingColumn]);
                 }
 
                 else if(containsLetterMultiplier(i, startingColumn)) {
-                    wordScore = wordScore + bag.getScore(duplicateBoard[i][startingColumn])
+                    wordScore = wordScore +
+                            bag.getScore(duplicateBoard[i][startingColumn])
                             * letterMultiplierScore(boardArray[i][startingColumn]);
                 }
                 else {
-                    wordScore = wordScore + bag.getScore(duplicateBoard[i][startingColumn]);
+                    wordScore = wordScore +
+                            bag.getScore(duplicateBoard[i][startingColumn]);
                 }
-                calculateScoreInLeftRight(i, startingColumn, duplicateBoard[i][startingColumn]);
+                calculateScoreInLeftRight(i,
+                        startingColumn, duplicateBoard[i][startingColumn]);
             }
             else {
-                wordScore = wordScore + bag.getScore(boardArray[i][startingColumn]);
+                wordScore = wordScore +
+                        bag.getScore(boardArray[i][startingColumn]);
             }
         }
 
@@ -902,6 +1145,13 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Calculates score in the left and right for vertical move
+     *
+     * @param int row, row of letter
+     * @param int column, column of letter
+     * @param char character, letter
+     */
     public void calculateScoreInLeftRight
             (int row, int column, char character) {
         int score = 0;
@@ -1035,7 +1285,9 @@ public class HumanPlayer {
 
     }
 
-
+    /**
+     * Calculates score in the horizontal move
+     */
     public void calculateScoreForWordLeftRight() {
         int multiplier = 1;
         int wordScore = 0;
@@ -1115,7 +1367,13 @@ public class HumanPlayer {
 
     }
 
-
+    /**
+     * Calculates score in the top and bottom for horizontal move
+     *
+     * @param int row, row of letter
+     * @param int column, column of letter
+     * @param char character, letter
+     */
    public void calculateScoreInTopBottom
             (int row, int column, char character) {
         int score = 0;
@@ -1250,6 +1508,9 @@ public class HumanPlayer {
 
     }
 
+    /**
+     * Places tiles on the board
+     */
     public void placeTilesOnBoard() {
         int x = 0;
         int y = 0;
@@ -1260,6 +1521,9 @@ public class HumanPlayer {
         }
     }
 
+    /**
+     * Updates the tray of human player
+     */
     public void updateTray() {
         tray = "";
         int replaceNeeded = 0;
@@ -1278,6 +1542,13 @@ public class HumanPlayer {
     }
 
 
+    /**
+     * Checks if the spot in the board is free to add letters or not
+     *
+     * @param int x, row of the board
+     * @param int y, column of the board
+     * @return boolean, returns true if given spot is free and vice versa
+     */
     public boolean isFree(int x, int y) {
         if(boardArray[x][y] == '-' || boardArray[x][y] == '1' ||
                 boardArray[x][y] == '2' || boardArray[x][y] == '3' || boardArray[x][y] == '4' ||
@@ -1287,6 +1558,13 @@ public class HumanPlayer {
         return  false;
     }
 
+    /**
+     * Checks if the spot has word multiplier or not
+     *
+     * @param int x, row of the board
+     * @param int y, column of the board
+     * @return boolean, returns true spot contains word multiplier
+     */
     public boolean containsWordsMultiplier(int row, int column) {
         if(boardArray[row][column] == '@' || boardArray[row][column] == '$' ||
                 boardArray[row][column] == '!') {
@@ -1295,6 +1573,12 @@ public class HumanPlayer {
         return false;
     }
 
+    /**
+     * Returns score of multiplier
+     *
+     * @param char character, return score for character
+     * @return int, returns score of multiplier
+     */
     public int multiplierScore(char character) {
         if(character == '@') {
             return 3;
@@ -1310,6 +1594,13 @@ public class HumanPlayer {
         return 0;
     }
 
+    /**
+     * Checks if spot contains letter multiplier or not
+     *
+     * @param int x, row of the board
+     * @param int y, column of the board
+     * @return boolean, returns true if given spot has letter multiplier
+     */
     public boolean containsLetterMultiplier(int row, int column) {
         if(boardArray[row][column] == '2' || boardArray[row][column] == '3' ||
                 boardArray[row][column] == '4') {
@@ -1318,6 +1609,12 @@ public class HumanPlayer {
         return false;
     }
 
+    /**
+     * Returns score of multiplier
+     *
+     * @param char character, return score for character
+     * @return int, returns score of multiplier
+     */
     public int letterMultiplierScore(char character) {
         if(character == '3') {
             return 3;
@@ -1333,7 +1630,13 @@ public class HumanPlayer {
         return 0;
     }
 
-
+    /**
+     * Checks if the board is out of index or not
+     *
+     * @param int i, row of the board
+     * @param int j, column of the board
+     * @return boolean, returns true if board is out of index and vice versa
+     */
     public boolean boardOutOfIndex(int i, int j) {
         if(i < 0 || j <0 || i > board.getSize() - 1 || j > board.getSize() - 1){
             return true;
@@ -1341,6 +1644,11 @@ public class HumanPlayer {
         return  false;
     }
 
+    /**
+     * Returns total score of the player
+     *
+     * @return int, returns total score of the player
+     */
     public int getTotalScore() {
         return totalScore;
     }
