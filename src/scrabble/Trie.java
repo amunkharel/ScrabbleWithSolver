@@ -1,14 +1,29 @@
+/**
+ * Project 3 - CS351, Fall 2019, Trie for storing words
+ * @version Date 2019-10-15
+ * @author Amun Kharel
+ *
+ *
+ */
+
 package scrabble;
 
 public class Trie {
 
+    /** Number of letters */
     private int size = 26;
 
+    /**Child of a parent trie */
     private Trie[] child = new Trie[size];
 
+    /** Checks if a word is valid*/
     boolean isValidWord;
 
 
+    /**
+     * Constructor for Trie.
+     *
+     */
     public Trie() {
         isValidWord = false;
 
@@ -16,6 +31,13 @@ public class Trie {
             child[i] = null;
         }
     }
+
+    /**
+     * Inserts word into the data structure
+     *
+     * @param Trie root,  Root of the Trie
+     * @param String word, Word to be inserted
+     */
 
     public void insertWord(Trie root, String word) {
         int n = word.length();
@@ -33,6 +55,13 @@ public class Trie {
         trie.isValidWord = true;
     }
 
+    /**
+     * Checks if a word is valid or not
+     *
+     * @param Trie root,  Root of the Trie
+     * @param String word, Word to be inserted
+     * @return boolean, returns true if valid word and vice versa
+     */
     public boolean isValidWord(String word, Trie root) {
         int n = word.length();
         word = word.toLowerCase();
@@ -55,6 +84,13 @@ public class Trie {
         return false;
     }
 
+    /**
+     * Returns a list of valid word with one wildcard
+     *
+     * @param Trie root,  Root of the Trie
+     * @param String word, Word to be inserted
+     * @return boolean[], valid words for a word with one wildcard
+     */
     public boolean[] validWordsForOneWildCard(String word, Trie root) {
         boolean [] validwords  = new boolean[size];
         String newWord = "";
@@ -70,6 +106,13 @@ public class Trie {
         return validwords;
     }
 
+    /**
+     * Returns a list of valid word with two wildcard
+     *
+     * @param Trie root,  Root of the Trie
+     * @param String word, Word to be inserted
+     * @return boolean[][], valid words for a word with two wildcard
+     */
     public boolean [][] validWordsForTwoWildCard(String word, Trie root) {
         boolean [][] validwords = new boolean[size][size];
         int firstCardIndex = 0;
